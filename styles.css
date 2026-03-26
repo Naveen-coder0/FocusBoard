@@ -1,0 +1,558 @@
+/* ===== BASIC RESET ===== */
+/* We target everything on the page using the asterisk to clear out default browser styling */
+* {
+    /* Removing default margins so things don't jump around */
+    margin: 0;
+    /* Removing default padding */
+    padding: 0;
+    /* Makes sure padding and borders are included in the element's total width and height */
+    box-sizing: border-box;
+}
+
+/* Our main body styling that sets the baseline for the whole app */
+body {
+    /* Upgrading to our gorgeous premium 'Outfit' font pulled from Google */
+    font-family: 'Outfit', sans-serif;
+    /* Creating a stunning, deep, modern dark gradient background instead of a flat color */
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    /* Ensuring the background stretches all the way down the screen */
+    min-height: 100vh;
+    /* Off-white text so it's super readable on the dark background */
+    color: #e2e8f0;
+    /* Standard line height for good typography readability */
+    line-height: 1.6;
+    /* Smooth anti-aliasing to make fonts look crisp on Mac and Windows */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== NAVIGATION BAR ===== */
+/* Styling the main top navigation block */
+nav {
+    /* Using a subtle semi-transparent background to create a glassmorphism effect */
+    background: rgba(15, 23, 42, 0.6);
+    /* Blurring whatever is behind the navbar for that premium Apple-like feel */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* A super subtle bottom border to separate nav from the main content */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Vertical and horizontal padding to give the nav items some breathing room */
+    padding: 18px 40px;
+    /* Flexbox makes aligning the title and links super easy */
+    display: flex;
+    /* Pushes title to the left and links to the right */
+    justify-content: space-between;
+    /* Vertically centers everything in the nav */
+    align-items: center;
+    /* Making sure the header stays above other elements as we scroll */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* The app logo/title text in the nav */
+.navbar-title {
+    /* Decent sized font for a brand name */
+    font-size: 24px;
+    /* Extra thick font weight so it stands out */
+    font-weight: 700;
+    /* Giving the logo a beautiful energetic gradient text fill instead of a solid color */
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* A tiny bit of letter spacing for elegance */
+    letter-spacing: -0.5px;
+}
+
+/* The wrapper for the navigation links */
+.nav-links {
+    /* Flexbox again so they sit side-by-side */
+    display: flex;
+    /* Adding a generous gap so the links aren't squished together */
+    gap: 35px;
+    /* This removes the bullet points from the standard <ul> */
+    list-style: none;
+}
+
+/* Designing the actual hyper-links inside the nav */
+.nav-links a {
+    /* Gets rid of the ugly blue underlines by default */
+    text-decoration: none;
+    /* A soft gray-blue color so they don't overpower the brand logo */
+    color: #94a3b8;
+    /* Slightly heavier font weight for premium feel */
+    font-weight: 500;
+    /* Standard font size for navigation items */
+    font-size: 15px;
+    /* Adding a smooth animation for when we hover over them */
+    transition: all 0.3s ease;
+}
+
+/* What happens when you mouse over a nav link */
+.nav-links a:hover {
+    /* Changes to a bright icy blue on hover for feedback */
+    color: #e0f2fe;
+    /* Adding a soft glowing shadow to the text */
+    text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+}
+
+/* ===== MAIN CONTAINER ===== */
+/* This limits how wide the main content can stretch on large screens */
+.container {
+    /* The maximum width we allow is 1200 pixels to give it premium breathing room */
+    max-width: 1200px;
+    /* Setting left and right margins to "auto" perfectly centers the container */
+    margin: 0 auto;
+    /* Padding so the text doesn't slam into the sides of smaller screens */
+    padding: 40px 20px;
+}
+
+/* Styling the big main title on the page */
+.page-title {
+    /* Large modern heading font size */
+    font-size: 36px;
+    /* Thick modern weight */
+    font-weight: 700;
+    /* Tight letter spacing typical in modern UIs */
+    letter-spacing: -1px;
+    /* A little bit of space underneath the title */
+    margin-bottom: 8px;
+    /* Pure white color to make it literally pop against the dark mode */
+    color: #f8fafc;
+}
+
+/* The smaller explanatory text directly below the page title */
+.page-subtitle {
+    /* A sophisticated muted blueish-gray color */
+    color: #94a3b8;
+    /* Slightly larger readable font size */
+    font-size: 16px;
+    /* A decent chunk of space below the subtitle to separate the header section from the content */
+    margin-bottom: 40px;
+}
+
+/* ===== LAYOUT GRID ===== */
+/* The main wrapper that splits the page into two columns */
+.content-wrapper {
+    /* Using flexbox for the easiest side-by-side columns ever */
+    display: flex;
+    /* Adds exactly 40px of generous space between the left and right columns */
+    gap: 40px;
+    /* Pushing it down delicately from the header */
+    margin-top: 10px;
+}
+
+/* The main left column that holds all our tasks */
+.main-column {
+    /* flex: 2 means it takes up roughly two-thirds of the available space */
+    flex: 2;
+}
+
+/* The right sidebar with our stats and progress bars */
+.sidebar {
+    /* flex: 1 means it takes up the remaining one-third of the space */
+    flex: 1;
+    /* Using flex column to gap the sidebar widgets perfectly entirely natively */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ===== PREMIUM CARD STYLING ===== */
+/* A re-usable card design we apply to any box that needs it */
+.card {
+    /* A completely gorgeous semi-transparent glass background */
+    background: rgba(30, 41, 59, 0.4);
+    /* Frosted glass blur effect applied behind the card natively via CSS */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    /* A super delicate hairline border to define the card edges perfectly */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Deep rounded corners for an extremely modern friendly app look */
+    border-radius: 16px;
+    /* Lots of internal padding so the contents can breathe beautifully */
+    padding: 28px;
+    /* Adding a massive, but incredibly soft shadow behind the card to lift it off the screen */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    /* Adding space directly below every main column card without needing to target specifically */
+    margin-bottom: 30px;
+    /* A smooth transition just in case we add hover effects later */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The header text at the top of each individual card */
+.card-title {
+    /* Noticeable but not overly huge text size */
+    font-size: 18px;
+    /* Giving it some modern weight exclusively */
+    font-weight: 600;
+    /* Giving it some room before the card content begins */
+    margin-bottom: 24px;
+    /* Bright white color for hierarchy */
+    color: #f8fafc;
+    /* Adding a tiny modern brand-color bottom border accent trick */
+    display: inline-block;
+    border-bottom: 2px solid #818cf8;
+    padding-bottom: 4px;
+}
+
+/* ===== ADD TASK FORM ===== */
+/* A container inside forms that groups a label with its input field together */
+.form-group {
+    /* Standard luxurious spacing below each form group */
+    margin-bottom: 20px;
+}
+
+/* The text describing what each input box does */
+.form-label {
+    /* Block forces inputs inherently to the next line down */
+    display: block;
+    /* Setting an elegant tiny font size */
+    font-size: 13px;
+    /* Premium medium font weight */
+    font-weight: 500;
+    /* A tiny gap between the label and its input box */
+    margin-bottom: 8px;
+    /* A nice legible light slate color */
+    color: #cbd5e1;
+    /* Adding a tiny bit of letter spacing and forcing all caps for slick design */
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* The actual text boxes and dropdowns where users type or select */
+.form-input {
+    /* Fill max allowed width inherently */
+    width: 100%;
+    /* Lush padding so the text inside feels premium and spacious */
+    padding: 14px 16px;
+    /* Returning to a slightly darker transparent background specifically for inputs */
+    background: rgba(15, 23, 42, 0.5);
+    /* A very soft border that's barely there until focused */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Nice round pill-like corners */
+    border-radius: 10px;
+    /* Standard text color */
+    color: #f8fafc;
+    /* Matching the font sizes easily */
+    font-size: 15px;
+    /* Matching our beautiful Google font again specifically for the input */
+    font-family: 'Outfit', sans-serif;
+    /* Making changes ultra smooth upon interaction */
+    transition: all 0.2s ease;
+}
+
+/* When the user actually clicks into the input field to type */
+.form-input:focus {
+    /* We purposefully remove the browser's default ugly focus ring */
+    outline: none;
+    /* Illuminating the border heavily with our brand color instead */
+    border-color: #818cf8;
+    /* Enhancing the background subtly so they know it is active */
+    background: rgba(15, 23, 42, 0.8);
+    /* Throwing a glowing shadow around the absolute active box */
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+/* A special container to put two form fields directly next to each other */
+.form-row {
+    display: flex;
+    /* Big luxurious gap */
+    gap: 20px;
+}
+
+/* Split the row precisely 50/50 */
+.form-row .form-group {
+    flex: 1;
+}
+
+/* The big submit button at the bottom of our form */
+.form-button {
+    width: 100%;
+    /* Chonky comfortable padding */
+    padding: 14px;
+    /* A totally stunning linear gradient background for our main call to action! */
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    /* Getting rid of default ugly gray borders */
+    border: none;
+    color: white;
+    font-size: 15px;
+    /* Extra thick weight to grab attention */
+    font-weight: 600;
+    /* Premium rounded corners again */
+    border-radius: 10px;
+    /* Pointer magical cursor of course */
+    cursor: pointer;
+    /* Smooth scaling and shadow transitions exclusively for when we hover and click */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Initial soft delicate drop shadow */
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+    /* Making sure our gorgeous font follows into the button */
+    font-family: 'Outfit', sans-serif;
+}
+
+/* When the user natively mouses over our submit button */
+.form-button:hover {
+    /* Physiologically lifts the button toward the user slightly! */
+    transform: translateY(-2px);
+    /* Expands and intensifies the drop shadow for that floating effect instantly */
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* When the button is actively clicked and held down */
+.form-button:active {
+    /* Pushes it firmly down into the page realistically */
+    transform: translateY(1px);
+    /* Compresses the shadow so it realistically grounds itself instantly */
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+}
+
+/* ===== TASK LIST ===== */
+/* The main wrapper that stacks all our individual tasks */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    /* Tighter gap so the list feels naturally grouped as a single block */
+    gap: 12px;
+}
+
+/* The actual individual task row container representing one specific task */
+.task-item {
+    display: flex;
+    align-items: center;
+    /* Thick luxurious padding around individual tasks */
+    padding: 16px 20px;
+    /* Soft purely transparent backdrop for each task row */
+    background: rgba(255, 255, 255, 0.03);
+    /* Hairline border */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Super round modern app borders! */
+    border-radius: 12px;
+    /* Silky smooth transition on everything within the task */
+    transition: all 0.2s ease;
+}
+
+/* When hovering purely over a single task row */
+.task-item:hover {
+    /* Light it up slightly so they know they are pointing at it */
+    background: rgba(255, 255, 255, 0.06);
+    /* Slight nudging transform effect to the right */
+    transform: translateX(4px);
+    /* Soft shadow boost for depth pop */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* The precisely styled square checkbox natively */
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    /* Accentuating margin away from the text rightward */
+    margin-right: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Super easy accent brand color when checked! (Works beautifully in modern browsers natively) */
+    accent-color: #818cf8;
+}
+
+/* Main text wrapping container for all sub text inside a task */
+.task-info {
+    flex: 1;
+}
+
+/* The primary descriptive text of the task */
+.task-name {
+    /* Slightly bigger, more confident task text */
+    font-size: 15px;
+    font-weight: 500;
+    color: #f1f5f9;
+    /* Giving breathing room directly before the meta badges */
+    margin-bottom: 6px;
+    transition: all 0.2s ease;
+}
+
+/* What dynamically happens to the task name ONLY when completely finished */
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    /* Muted text to brilliantly signal irrelevance visually */
+    color: #64748b;
+}
+
+/* The wrapper container sitting under the task name managing exclusively the date and priority badges */
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* The core styling block for the colorful little priority indicator flags */
+.priority-badge {
+    /* Making it a real flex-pill shaped badge! */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    /* Fully pill-shaped max rounding */
+    border-radius: 20px; 
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Specific styling modifier applied specifically for high priority tasks */
+.priority-high {
+    /* Gorgeous glowing danger red transparent background */
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    /* Extremely soft glowing red edge */
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Specific styling modifier applied specifically for medium priority tasks */
+.priority-medium {
+    /* Beautiful warning amber transparent background */
+    background: rgba(245, 158, 11, 0.15);
+    color: #fcd34d;
+    /* Extremely soft glowing amber edge */
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Specific styling modifier applied specifically for strictly low priority tasks */
+.priority-low {
+    /* Pleasant safe emerald green transparent background */
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+    /* Extremely soft glowing green edge */
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* ===== SIDEBAR STATS ===== */
+/* Styling the individual numbered widget blocks going natively down the sidebar */
+.stat-box {
+    /* Using flexbox natively to center stuff more intelligently inside the exact box */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Distinct dark glassy sub-card feel */
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    /* Puffy thick pad natively */
+    padding: 24px;
+    /* No margin needed technically since the parent sidebar flex container uses 'gap', but keeping for safe fallback */
+    margin-bottom: 0;
+    transition: transform 0.2s ease;
+}
+
+/* Fun little hover effect exclusively for our stats boxes */
+.stat-box:hover {
+    /* Blows it up extremely slightly like an app icon */
+    transform: scale(1.02);
+}
+
+/* The giant, prominent number directly at the top of the stat box */
+.stat-number {
+    /* Giant confident font strictly for digits */
+    font-size: 38px;
+    font-weight: 700;
+    /* Absolute shimmering gradient fill specifically clipping to the raw text shape! */
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 4px;
+}
+
+/* The tiny text string explaining exactly what the big stat number literally means */
+.stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== PROGRESS SECTION ===== */
+/* Wrapper containing specifically the label and the graphical progress bar directly below it */
+.progress-item {
+    margin-bottom: 24px;
+}
+
+/* The absolutely last one shouldn't practically have margin at bottom to keep spacing perfect */
+.progress-item:last-child {
+    margin-bottom: 0;
+}
+
+/* The wrapper containing precisely the text description and the percentage number */
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #cbd5e1;
+}
+
+/* The empty, hollow background specifically tracking the bar width */
+.progress-bar {
+    width: 100%;
+    /* Thicker bar for premium squishy visual feel */
+    height: 10px;
+    /* Deep dark sunken track color */
+    background: rgba(15, 23, 42, 0.8);
+    /* Internal dark border drop shadow simulating depth! */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* The purely visual colored block that actually moves entirely across the screen to signify % filling */
+.progress-fill {
+    height: 100%;
+    /* Sensational glowing gradient explicitly for progress lines!! */
+    background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+    border-radius: 20px;
+    /* Faking a tiny shimmering glow highlight intrinsically on top of the bar */
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+    /* Initial animation allowing a cool loading feel */
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== FOOTER ===== */
+/* The final grounding element inherently pushed to the absolute bottom of the entire page */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 14px;
+    /* A super delicate separator line exclusively for the footer */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Pushing it incredibly far down nicely from whatever naturally comes before it */
+    margin-top: 60px;
+    font-weight: 300;
+}
+
+/* ===== RESPONSIVE ===== */
+/* Targeting small screens natively and specifically (e.g. mobile phones and small tablets under 768px wide) */
+@media (max-width: 768px) {
+    /* Grabbing our main split content primarily wrapper */
+    .content-wrapper {
+        /* Pushing columns directly to a vertical stack for optimal mobile viewing inherently */
+        flex-direction: column;
+    }
+    
+    /* Making sure our navbar grid essentially handles vertical stacking too now magically */
+    nav {
+        /* Stack nav vertically fundamentally on tiny devices */
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    /* Pushing natively the links tighter */
+    .nav-links {
+        gap: 20px;
+    }
+}
