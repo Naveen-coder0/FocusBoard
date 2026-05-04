@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusBoard — Focus Mode</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Override body for full-screen focus */
+    body {
+      background: #0f1117;
+      color: #e8eaf0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP BAR */
+    .focus-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .focus-topbar .logo { color: #4f7ef8; font-size: 17px; font-weight: 700; }
+
+    .focus-topbar nav { display: flex; gap: 20px; }
+
+    .focus-topbar nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      transition: color var(--transition);
+    }
+
+    .focus-topbar nav a:hover { color: rgba(255,255,255,0.8); }
+    .focus-topbar nav a.active { color: #4f7ef8; }
+
+    /* MAIN FOCUS AREA */
+    .focus-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      gap: 0;
+    }
+
+    /* SESSION TYPE TABS */
+    .session-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 52px;
+    }
+
+    .session-tab {
+      padding: 8px 20px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .session-tab.active {
+      background: #4f7ef8;
+      color: #fff;
+    }
+
+    .session-tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+    /* TIMER RING */
+    .timer-ring-wrap {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin-bottom: 48px;
+    }
+
+    .timer-ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .timer-ring-bg {
+      fill: none;
+      stroke: rgba(255,255,255,0.06);
+      stroke-width: 6;
+    }
+
+    .timer-ring-progress {
+      fill: none;
+      stroke: #4f7ef8;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 754;
+      stroke-dashoffset: 188; /* ~75% filled */
+      transition: stroke-dashoffset 0.5s ease;
+    }
+
+    .timer-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-display {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -3px;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* CONTROLS */
+    .timer-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 52px;
+    }
+
+    .ctrl-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.6);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .ctrl-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .ctrl-btn-primary {
+      width: 68px; height: 68px;
+      background: #4f7ef8;
+      border-color: #4f7ef8;
+      color: #fff;
+      font-size: 22px;
+    }
+
+    .ctrl-btn-primary:hover { background: #3a63d4; border-color: #3a63d4; }
+
+    /* CURRENT TASK */
+    .current-task-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 36px;
+    }
+
+    .current-task-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+
+    .current-task-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .current-task-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* SESSION STATS */
+    .session-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-item .val {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-item .lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* BOTTOM NAV HINT */
+    .focus-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 480px) {
+      .timer-display { font-size: 48px; }
+      .timer-ring-wrap { width: 220px; height: 220px; }
+      .timer-ring-progress { stroke-dasharray: 597; stroke-dashoffset: 149; }
+      .session-stats { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="focus-topbar">
+    <div class="logo">⚡ FocusBoard</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tasks.html">Tasks</a>
+      <a href="deadlines.html">Deadlines</a>
+      <a href="focus.html" class="active">Focus Mode</a>
+    </nav>
+    <a href="dashboard.html" class="btn btn-outline" style="font-size:13px; padding:8px 16px; border-color:rgba(255,255,255,0.15); color:rgba(255,255,255,0.5);">Exit</a>
+  </header>
+
+  <!-- FOCUS MAIN -->
+  <main class="focus-main">
+
+    <!-- SESSION TABS -->
+    <div class="session-tabs">
+      <div class="session-tab active">Pomodoro</div>
+      <div class="session-tab">Short Break</div>
+      <div class="session-tab">Long Break</div>
+    </div>
+
+    <!-- TIMER RING -->
+    <div class="timer-ring-wrap">
+      <svg class="timer-ring-svg" viewBox="0 0 280 280">
+        <circle class="timer-ring-bg" cx="140" cy="140" r="120" />
+        <circle class="timer-ring-progress" cx="140" cy="140" r="120" />
+      </svg>
+      <div class="timer-center">
+        <div class="timer-display">18:45</div>
+        <div class="timer-label">remaining</div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="timer-controls">
+      <button class="ctrl-btn" title="Restart">↺</button>
+      <button class="ctrl-btn ctrl-btn-primary" title="Play/Pause">▶</button>
+      <button class="ctrl-btn" title="Skip">⏭</button>
+    </div>
+
+    <!-- CURRENT TASK -->
+    <div class="current-task-card">
+      <div class="current-task-label">Currently working on</div>
+      <div class="current-task-name">Write essay introduction</div>
+      <div class="current-task-sub">English · Due today at 3:00 PM</div>
+    </div>
+
+    <!-- SESSION STATS -->
+    <div class="session-stats">
+      <div class="stat-item">
+        <div class="val">3</div>
+        <div class="lbl">Sessions</div>
+      </div>
+      <div class="stat-item">
+        <div class="val">1h 15m</div>
+        <div class="lbl">Focus Time</div>
+      </div>
+      <div class="stat-item">
+        <div class="val">2</div>
+        <div class="lbl">Breaks</div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="focus-footer">Press ▶ to start your focus session · Stay focused, you've got this 💪</footer>
+
+</body>
+</html>

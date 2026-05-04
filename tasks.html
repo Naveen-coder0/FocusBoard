@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusBoard — Tasks</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .tasks-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* TASK CARD */
+    .task-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 20px;
+      margin-bottom: 10px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .task-card-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .task-card-check.done { background: var(--accent); border-color: var(--accent); }
+
+    .task-card-body { flex: 1; }
+
+    .task-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .task-card-title.done { color: var(--text-light); text-decoration: line-through; }
+
+    .task-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .task-card-meta span { font-size: 12px; color: var(--text-muted); }
+
+    .meta-dot { color: var(--border) !important; }
+
+    /* ADD TASK FORM */
+    .form-card { padding: 24px; align-self: start; }
+
+    .form-title { font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+
+    .form-group { margin-bottom: 14px; }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .form-input:focus, .form-select:focus { border-color: var(--accent); }
+
+    .form-input::placeholder { color: var(--text-light); }
+
+    @media (max-width: 900px) {
+      .tasks-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="logo">⚡ FocusBoard</div>
+    <nav>
+      <a href="dashboard.html" class="nav-link">
+        <span class="nav-icon">📊</span><span>Dashboard</span>
+      </a>
+      <a href="tasks.html" class="nav-link active">
+        <span class="nav-icon">✅</span><span>Tasks</span>
+      </a>
+      <a href="deadlines.html" class="nav-link">
+        <span class="nav-icon">📅</span><span>Deadlines</span>
+      </a>
+      <a href="focus.html" class="nav-link">
+        <span class="nav-icon">🎯</span><span>Focus Mode</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>Tasks</h1>
+      <p>8 tasks total · 3 completed · 5 remaining</p>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Pending</button>
+      <button class="filter-btn">Completed</button>
+      <button class="filter-btn">Due Today</button>
+      <button class="filter-btn">Mathematics</button>
+      <button class="filter-btn">Physics</button>
+      <button class="filter-btn">English</button>
+    </div>
+
+    <div class="tasks-layout">
+
+      <!-- TASK LIST -->
+      <div>
+
+        <!-- PENDING -->
+        <div class="section-title">Pending</div>
+
+        <div class="card task-card">
+          <div class="task-card-check"></div>
+          <div class="task-card-body">
+            <div class="task-card-title">Write essay introduction</div>
+            <div class="task-card-meta">
+              <span class="badge badge-pink">English</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Due Jul 14, 3:00 PM</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-danger">Due today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check"></div>
+          <div class="task-card-body">
+            <div class="task-card-title">Math problem set #4</div>
+            <div class="task-card-meta">
+              <span class="badge badge-blue">Mathematics</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Due Jul 14, 5:00 PM</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-warning">Due today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check"></div>
+          <div class="task-card-body">
+            <div class="task-card-title">Prepare presentation slides</div>
+            <div class="task-card-meta">
+              <span class="badge badge-warning">History</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Due Jul 16</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-blue">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check"></div>
+          <div class="task-card-body">
+            <div class="task-card-title">Physics Lab Report — Optics</div>
+            <div class="task-card-meta">
+              <span class="badge badge-purple">Physics</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Due Jul 18</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-blue">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check"></div>
+          <div class="task-card-body">
+            <div class="task-card-title">Biology Project — Cell Division</div>
+            <div class="task-card-meta">
+              <span class="badge badge-success">Biology</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Due Jul 25</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-blue">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPLETED -->
+        <div class="section-title" style="margin-top:28px;">Completed</div>
+
+        <div class="card task-card">
+          <div class="task-card-check done"></div>
+          <div class="task-card-body">
+            <div class="task-card-title done">Read Chapter 5 — Physics</div>
+            <div class="task-card-meta">
+              <span class="badge badge-purple">Physics</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Jul 14, 9:00 AM</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-success">Completed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check done"></div>
+          <div class="task-card-body">
+            <div class="task-card-title done">Review lecture notes</div>
+            <div class="task-card-meta">
+              <span class="badge badge-success">Biology</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Jul 14, 11:00 AM</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-success">Completed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task-card">
+          <div class="task-card-check done"></div>
+          <div class="task-card-body">
+            <div class="task-card-title done">Solve practice problems — Algebra</div>
+            <div class="task-card-meta">
+              <span class="badge badge-blue">Mathematics</span>
+              <span class="meta-dot">·</span>
+              <span>📅 Jul 13</span>
+              <span class="meta-dot">·</span>
+              <span class="badge badge-success">Completed</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ADD TASK FORM -->
+      <div class="card form-card">
+        <div class="form-title">+ Add New Task</div>
+
+        <div class="form-group">
+          <label class="form-label">Task Title</label>
+          <input class="form-input" type="text" placeholder="e.g. Read Chapter 6" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-select">
+            <option>Mathematics</option>
+            <option>Physics</option>
+            <option>English</option>
+            <option>Biology</option>
+            <option>History</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Deadline</label>
+          <input class="form-input" type="date" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-select">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Notes</label>
+          <textarea class="form-input" rows="3" placeholder="Optional notes..." style="resize:vertical"></textarea>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%; justify-content:center;">Add Task</button>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusBoard — Deadlines</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .deadlines-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+
+    /* CALENDAR */
+    .calendar-card { padding: 24px; }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .cal-header h2 { font-size: 18px; font-weight: 700; }
+
+    .cal-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .cal-nav-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+
+    .cal-nav-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .cal-weekday {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 0;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 6px 4px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: default;
+      transition: background var(--transition);
+      min-height: 52px;
+    }
+
+    .cal-day:hover { background: var(--bg); }
+
+    .cal-day.other-month { color: var(--border); }
+
+    .cal-day.today {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .cal-day.today:hover { background: var(--accent-dark); }
+
+    .cal-day.has-deadline { background: var(--bg); }
+
+    .cal-day-num { line-height: 1; margin-bottom: 4px; }
+
+    .cal-dots { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
+
+    .cal-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+
+    .dot-math    { background: #4f7ef8; }
+    .dot-physics { background: #7c3aed; }
+    .dot-english { background: #be185d; }
+    .dot-history { background: #f59e0b; }
+    .dot-biology { background: #22c55e; }
+
+    /* LEGEND */
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* DEADLINE LIST */
+    .deadline-list-card { padding: 24px; align-self: start; }
+
+    .dl-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dl-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .dl-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .dl-title { font-size: 14px; font-weight: 600; }
+
+    .dl-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .dl-bar-wrap { margin-top: 8px; }
+
+    @media (max-width: 900px) {
+      .deadlines-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="logo">⚡ FocusBoard</div>
+    <nav>
+      <a href="dashboard.html" class="nav-link">
+        <span class="nav-icon">📊</span><span>Dashboard</span>
+      </a>
+      <a href="tasks.html" class="nav-link">
+        <span class="nav-icon">✅</span><span>Tasks</span>
+      </a>
+      <a href="deadlines.html" class="nav-link active">
+        <span class="nav-icon">📅</span><span>Deadlines</span>
+      </a>
+      <a href="focus.html" class="nav-link">
+        <span class="nav-icon">🎯</span><span>Focus Mode</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>Deadlines</h1>
+      <p>5 upcoming deadlines this month</p>
+    </div>
+
+    <div class="deadlines-layout">
+
+      <!-- CALENDAR -->
+      <div class="card calendar-card">
+        <div class="cal-header">
+          <h2>July 2025</h2>
+          <div class="cal-nav">
+            <button class="cal-nav-btn">‹</button>
+            <button class="cal-nav-btn">›</button>
+          </div>
+        </div>
+
+        <div class="cal-weekdays">
+          <div class="cal-weekday">Sun</div>
+          <div class="cal-weekday">Mon</div>
+          <div class="cal-weekday">Tue</div>
+          <div class="cal-weekday">Wed</div>
+          <div class="cal-weekday">Thu</div>
+          <div class="cal-weekday">Fri</div>
+          <div class="cal-weekday">Sat</div>
+        </div>
+
+        <div class="cal-grid">
+          <!-- Week 1: Jun 29 – Jul 5 -->
+          <div class="cal-day other-month"><span class="cal-day-num">29</span></div>
+          <div class="cal-day other-month"><span class="cal-day-num">30</span></div>
+          <div class="cal-day"><span class="cal-day-num">1</span></div>
+          <div class="cal-day"><span class="cal-day-num">2</span></div>
+          <div class="cal-day"><span class="cal-day-num">3</span></div>
+          <div class="cal-day"><span class="cal-day-num">4</span></div>
+          <div class="cal-day"><span class="cal-day-num">5</span></div>
+
+          <!-- Week 2: Jul 6–12 -->
+          <div class="cal-day"><span class="cal-day-num">6</span></div>
+          <div class="cal-day"><span class="cal-day-num">7</span></div>
+          <div class="cal-day"><span class="cal-day-num">8</span></div>
+          <div class="cal-day"><span class="cal-day-num">9</span></div>
+          <div class="cal-day"><span class="cal-day-num">10</span></div>
+          <div class="cal-day"><span class="cal-day-num">11</span></div>
+          <div class="cal-day"><span class="cal-day-num">12</span></div>
+
+          <!-- Week 3: Jul 13–19 -->
+          <div class="cal-day"><span class="cal-day-num">13</span></div>
+          <div class="cal-day today has-deadline">
+            <span class="cal-day-num">14</span>
+            <div class="cal-dots"><div class="cal-dot dot-english"></div></div>
+          </div>
+          <div class="cal-day"><span class="cal-day-num">15</span></div>
+          <div class="cal-day has-deadline">
+            <span class="cal-day-num">16</span>
+            <div class="cal-dots"><div class="cal-dot dot-history"></div></div>
+          </div>
+          <div class="cal-day"><span class="cal-day-num">17</span></div>
+          <div class="cal-day has-deadline">
+            <span class="cal-day-num">18</span>
+            <div class="cal-dots"><div class="cal-dot dot-physics"></div></div>
+          </div>
+          <div class="cal-day"><span class="cal-day-num">19</span></div>
+
+          <!-- Week 4: Jul 20–26 -->
+          <div class="cal-day"><span class="cal-day-num">20</span></div>
+          <div class="cal-day"><span class="cal-day-num">21</span></div>
+          <div class="cal-day has-deadline">
+            <span class="cal-day-num">22</span>
+            <div class="cal-dots"><div class="cal-dot dot-math"></div></div>
+          </div>
+          <div class="cal-day"><span class="cal-day-num">23</span></div>
+          <div class="cal-day"><span class="cal-day-num">24</span></div>
+          <div class="cal-day has-deadline">
+            <span class="cal-day-num">25</span>
+            <div class="cal-dots"><div class="cal-dot dot-biology"></div></div>
+          </div>
+          <div class="cal-day"><span class="cal-day-num">26</span></div>
+
+          <!-- Week 5: Jul 27–31 + Aug 1–2 -->
+          <div class="cal-day"><span class="cal-day-num">27</span></div>
+          <div class="cal-day"><span class="cal-day-num">28</span></div>
+          <div class="cal-day"><span class="cal-day-num">29</span></div>
+          <div class="cal-day"><span class="cal-day-num">30</span></div>
+          <div class="cal-day"><span class="cal-day-num">31</span></div>
+          <div class="cal-day other-month"><span class="cal-day-num">1</span></div>
+          <div class="cal-day other-month"><span class="cal-day-num">2</span></div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot dot-math"></div> Mathematics</div>
+          <div class="legend-item"><div class="legend-dot dot-physics"></div> Physics</div>
+          <div class="legend-item"><div class="legend-dot dot-english"></div> English</div>
+          <div class="legend-item"><div class="legend-dot dot-history"></div> History</div>
+          <div class="legend-item"><div class="legend-dot dot-biology"></div> Biology</div>
+        </div>
+      </div>
+
+      <!-- DEADLINE LIST -->
+      <div class="card deadline-list-card">
+        <div class="section-title">Upcoming</div>
+
+        <div class="dl-item">
+          <div class="dl-top">
+            <div class="dl-title">English Essay Draft</div>
+            <span class="badge badge-danger">Today</span>
+          </div>
+          <div class="dl-date">📅 Jul 14, 2025</div>
+          <div class="dl-bar-wrap">
+            <div class="progress-wrap"><div class="progress-bar" style="width:40%; background:#be185d"></div></div>
+          </div>
+        </div>
+
+        <div class="dl-item">
+          <div class="dl-top">
+            <div class="dl-title">History Presentation</div>
+            <span class="badge badge-warning">2 days</span>
+          </div>
+          <div class="dl-date">📅 Jul 16, 2025</div>
+          <div class="dl-bar-wrap">
+            <div class="progress-wrap"><div class="progress-bar" style="width:20%; background:#f59e0b"></div></div>
+          </div>
+        </div>
+
+        <div class="dl-item">
+          <div class="dl-top">
+            <div class="dl-title">Physics Lab Report</div>
+            <span class="badge badge-blue">4 days</span>
+          </div>
+          <div class="dl-date">📅 Jul 18, 2025</div>
+          <div class="dl-bar-wrap">
+            <div class="progress-wrap"><div class="progress-bar" style="width:60%; background:#7c3aed"></div></div>
+          </div>
+        </div>
+
+        <div class="dl-item">
+          <div class="dl-top">
+            <div class="dl-title">Math Final Exam</div>
+            <span class="badge badge-blue">8 days</span>
+          </div>
+          <div class="dl-date">📅 Jul 22, 2025</div>
+          <div class="dl-bar-wrap">
+            <div class="progress-wrap"><div class="progress-bar" style="width:75%"></div></div>
+          </div>
+        </div>
+
+        <div class="dl-item">
+          <div class="dl-top">
+            <div class="dl-title">Biology Project</div>
+            <span class="badge badge-blue">11 days</span>
+          </div>
+          <div class="dl-date">📅 Jul 25, 2025</div>
+          <div class="dl-bar-wrap">
+            <div class="progress-wrap"><div class="progress-bar" style="width:90%; background:#22c55e"></div></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

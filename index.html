@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusBoard — Focus on what matters</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── HOME-SPECIFIC ── */
+    .hero {
+      max-width: 760px;
+      margin: 80px auto 0;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      margin: 20px auto 36px;
+      max-width: 480px;
+      color: var(--text-muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── MOCKUP ── */
+    .mockup-wrap {
+      max-width: 900px;
+      margin: 64px auto;
+      padding: 0 24px;
+    }
+
+    .mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.10);
+      overflow: hidden;
+    }
+
+    .mockup-bar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .mockup-inner {
+      display: flex;
+      height: 340px;
+    }
+
+    .mockup-sidebar {
+      width: 160px;
+      border-right: 1px solid var(--border);
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .mock-nav-item {
+      padding: 8px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mock-nav-item.active { background: var(--accent-light); color: var(--accent); }
+
+    .mockup-body {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .mock-title { font-size: 14px; font-weight: 700; color: var(--text); }
+
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+    .mock-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .mock-card-label { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
+    .mock-card-val   { font-size: 18px; font-weight: 700; color: var(--text); }
+
+    .mock-task-list { display: flex; flex-direction: column; gap: 7px; }
+
+    .mock-task {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .mock-check {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .mock-check.done { background: var(--accent); border-color: var(--accent); }
+
+    .mock-task-text { flex: 1; color: var(--text); }
+    .mock-task-text.done { color: var(--text-light); text-decoration: line-through; }
+
+    /* ── FEATURES ── */
+    .features {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+
+    .features-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      padding: 28px;
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .mockup-sidebar { display: none; }
+      .mock-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">⚡ FocusBoard</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tasks.html">Tasks</a>
+      <a href="deadlines.html">Deadlines</a>
+      <a href="focus.html">Focus</a>
+    </nav>
+    <a href="dashboard.html" class="btn btn-primary">Open App</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-eyebrow">✦ Built for students</span>
+    <h1>Focus on<br /><span>what matters.</span></h1>
+    <p>FocusBoard helps you manage tasks, track deadlines, and stay in deep focus — all in one calm, distraction-free space.</p>
+    <div class="hero-cta">
+      <a href="dashboard.html" class="btn btn-primary">Get Started →</a>
+      <a href="focus.html" class="btn btn-outline">Try Focus Mode</a>
+    </div>
+  </section>
+
+  <!-- MOCKUP -->
+  <div class="mockup-wrap">
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="mockup-inner">
+        <div class="mockup-sidebar">
+          <div class="mock-nav-item active">📊 Dashboard</div>
+          <div class="mock-nav-item">✅ Tasks</div>
+          <div class="mock-nav-item">📅 Deadlines</div>
+          <div class="mock-nav-item">🎯 Focus Mode</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mock-title">Good morning, Alex 👋</div>
+          <div class="mock-cards">
+            <div class="mock-card">
+              <div class="mock-card-label">Tasks Today</div>
+              <div class="mock-card-val">6</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-label">Completed</div>
+              <div class="mock-card-val">4</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-label">Focus hrs</div>
+              <div class="mock-card-val">2.5</div>
+            </div>
+          </div>
+          <div class="mock-task-list">
+            <div class="mock-task">
+              <div class="mock-check done"></div>
+              <span class="mock-task-text done">Read Chapter 5 — Physics</span>
+              <span class="badge badge-success" style="font-size:10px">Done</span>
+            </div>
+            <div class="mock-task">
+              <div class="mock-check"></div>
+              <span class="mock-task-text">Write essay intro — English</span>
+              <span class="badge badge-warning" style="font-size:10px">Due today</span>
+            </div>
+            <div class="mock-task">
+              <div class="mock-check"></div>
+              <span class="mock-task-text">Math problem set #4</span>
+              <span class="badge badge-blue" style="font-size:10px">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <p class="features-label">Everything you need</p>
+    <div class="grid-3">
+      <div class="card feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Smart Task Management</h3>
+        <p>Organize tasks by subject, priority, and deadline. Keep everything in one place.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Deadline Tracker</h3>
+        <p>Visual calendar view of all your upcoming deadlines. Never miss a submission again.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Focus Mode</h3>
+        <p>Distraction-free Pomodoro timer. Lock in, get work done, and track your focus hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2025 FocusBoard — Designed for students who mean business.</footer>
+
+</body>
+</html>
