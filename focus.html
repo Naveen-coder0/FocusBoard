@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  FocusBoard - Focus Mode Page
+  Author: Mittal
+  This is a full screen dark page for studying.
+  It shows a big circular timer, session tabs, and control buttons.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +12,8 @@
   <title>FocusBoard — Focus Mode</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Override body for full-screen focus */
+
+    /* Dark background for the whole page */
     body {
       background: #0f1117;
       color: #e8eaf0;
@@ -15,7 +22,7 @@
       flex-direction: column;
     }
 
-    /* TOP BAR */
+    /* Top navigation bar (dark version) */
     .focus-topbar {
       display: flex;
       align-items: center;
@@ -36,9 +43,11 @@
     }
 
     .focus-topbar nav a:hover { color: rgba(255,255,255,0.8); }
+
+    /* Highlight the current page link */
     .focus-topbar nav a.active { color: #4f7ef8; }
 
-    /* MAIN FOCUS AREA */
+    /* Center everything vertically and horizontally */
     .focus-main {
       flex: 1;
       display: flex;
@@ -46,10 +55,9 @@
       align-items: center;
       justify-content: center;
       padding: 40px 24px;
-      gap: 0;
     }
 
-    /* SESSION TYPE TABS */
+    /* The three session type tabs: Pomodoro, Short Break, Long Break */
     .session-tabs {
       display: flex;
       gap: 4px;
@@ -59,6 +67,7 @@
       margin-bottom: 52px;
     }
 
+    /* Each tab button */
     .session-tab {
       padding: 8px 20px;
       border-radius: 7px;
@@ -69,14 +78,12 @@
       transition: all var(--transition);
     }
 
-    .session-tab.active {
-      background: #4f7ef8;
-      color: #fff;
-    }
+    /* Active tab is blue */
+    .session-tab.active { background: #4f7ef8; color: #fff; }
 
     .session-tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
 
-    /* TIMER RING */
+    /* Wrapper box for the circular SVG timer */
     .timer-ring-wrap {
       position: relative;
       width: 280px;
@@ -84,28 +91,35 @@
       margin-bottom: 48px;
     }
 
+    /* The SVG is rotated so the arc starts from the top */
     .timer-ring-svg {
       width: 100%;
       height: 100%;
       transform: rotate(-90deg);
     }
 
+    /* Grey background circle (the track) */
     .timer-ring-bg {
       fill: none;
       stroke: rgba(255,255,255,0.06);
       stroke-width: 6;
     }
 
+    /*
+      Blue progress arc on top of the grey track.
+      stroke-dasharray = total circle length (754px for r=120)
+      stroke-dashoffset = how much is hidden (188 = 75% shown)
+    */
     .timer-ring-progress {
       fill: none;
       stroke: #4f7ef8;
       stroke-width: 6;
       stroke-linecap: round;
       stroke-dasharray: 754;
-      stroke-dashoffset: 188; /* ~75% filled */
-      transition: stroke-dashoffset 0.5s ease;
+      stroke-dashoffset: 188;
     }
 
+    /* The time text sits in the center of the ring */
     .timer-center {
       position: absolute;
       inset: 0;
@@ -115,6 +129,7 @@
       justify-content: center;
     }
 
+    /* Big time number e.g. 18:45 */
     .timer-display {
       font-size: 64px;
       font-weight: 700;
@@ -123,6 +138,7 @@
       line-height: 1;
     }
 
+    /* Small "remaining" label below the time */
     .timer-label {
       font-size: 13px;
       color: rgba(255,255,255,0.4);
@@ -130,7 +146,7 @@
       font-weight: 500;
     }
 
-    /* CONTROLS */
+    /* Row of 3 control buttons: restart, play, skip */
     .timer-controls {
       display: flex;
       align-items: center;
@@ -138,8 +154,10 @@
       margin-bottom: 52px;
     }
 
+    /* Regular control button (restart and skip) */
     .ctrl-btn {
-      width: 52px; height: 52px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       border: 1.5px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.05);
@@ -154,8 +172,10 @@
 
     .ctrl-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
+    /* Play button is bigger and blue */
     .ctrl-btn-primary {
-      width: 68px; height: 68px;
+      width: 68px;
+      height: 68px;
       background: #4f7ef8;
       border-color: #4f7ef8;
       color: #fff;
@@ -164,7 +184,7 @@
 
     .ctrl-btn-primary:hover { background: #3a63d4; border-color: #3a63d4; }
 
-    /* CURRENT TASK */
+    /* Card showing which task you are currently working on */
     .current-task-card {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
@@ -176,6 +196,7 @@
       margin-bottom: 36px;
     }
 
+    /* Small label at the top of the task card */
     .current-task-label {
       font-size: 11px;
       font-weight: 600;
@@ -185,6 +206,7 @@
       margin-bottom: 8px;
     }
 
+    /* Task name in white */
     .current-task-name {
       font-size: 16px;
       font-weight: 600;
@@ -192,26 +214,22 @@
       margin-bottom: 6px;
     }
 
-    .current-task-sub {
-      font-size: 13px;
-      color: rgba(255,255,255,0.4);
-    }
+    /* Subject and due time below the task name */
+    .current-task-sub { font-size: 13px; color: rgba(255,255,255,0.4); }
 
-    /* SESSION STATS */
-    .session-stats {
-      display: flex;
-      gap: 40px;
-    }
+    /* Row of 3 session stats: sessions, focus time, breaks */
+    .session-stats { display: flex; gap: 40px; }
 
     .stat-item { text-align: center; }
 
+    /* The number value */
     .stat-item .val {
       font-size: 22px;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.5px;
     }
 
+    /* The label below the number */
     .stat-item .lbl {
       font-size: 11px;
       color: rgba(255,255,255,0.35);
@@ -220,7 +238,7 @@
       margin-top: 4px;
     }
 
-    /* BOTTOM NAV HINT */
+    /* Motivational text at the very bottom */
     .focus-footer {
       text-align: center;
       padding: 20px;
@@ -228,17 +246,20 @@
       color: rgba(255,255,255,0.2);
     }
 
+    /* On small phones: make the timer ring smaller */
     @media (max-width: 480px) {
       .timer-display { font-size: 48px; }
       .timer-ring-wrap { width: 220px; height: 220px; }
+      /* Recalculate dasharray for smaller ring (r=95, circumference=597) */
       .timer-ring-progress { stroke-dasharray: 597; stroke-dashoffset: 149; }
       .session-stats { gap: 24px; }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- TOP BAR -->
+  <!-- Top navigation bar -->
   <header class="focus-topbar">
     <div class="logo">⚡ FocusBoard</div>
     <nav>
@@ -247,46 +268,50 @@
       <a href="deadlines.html">Deadlines</a>
       <a href="focus.html" class="active">Focus Mode</a>
     </nav>
+    <!-- Exit button goes back to dashboard -->
     <a href="dashboard.html" class="btn btn-outline" style="font-size:13px; padding:8px 16px; border-color:rgba(255,255,255,0.15); color:rgba(255,255,255,0.5);">Exit</a>
   </header>
 
-  <!-- FOCUS MAIN -->
+  <!-- All the focus content centered on the page -->
   <main class="focus-main">
 
-    <!-- SESSION TABS -->
+    <!-- Session type tabs -->
     <div class="session-tabs">
       <div class="session-tab active">Pomodoro</div>
       <div class="session-tab">Short Break</div>
       <div class="session-tab">Long Break</div>
     </div>
 
-    <!-- TIMER RING -->
+    <!-- Circular ring timer -->
     <div class="timer-ring-wrap">
       <svg class="timer-ring-svg" viewBox="0 0 280 280">
+        <!-- Grey background track -->
         <circle class="timer-ring-bg" cx="140" cy="140" r="120" />
+        <!-- Blue progress arc (75% filled = 18:45 remaining out of 25:00) -->
         <circle class="timer-ring-progress" cx="140" cy="140" r="120" />
       </svg>
+      <!-- Time display in the center -->
       <div class="timer-center">
         <div class="timer-display">18:45</div>
         <div class="timer-label">remaining</div>
       </div>
     </div>
 
-    <!-- CONTROLS -->
+    <!-- Control buttons: restart, play, skip -->
     <div class="timer-controls">
       <button class="ctrl-btn" title="Restart">↺</button>
       <button class="ctrl-btn ctrl-btn-primary" title="Play/Pause">▶</button>
       <button class="ctrl-btn" title="Skip">⏭</button>
     </div>
 
-    <!-- CURRENT TASK -->
+    <!-- Shows which task you are working on right now -->
     <div class="current-task-card">
       <div class="current-task-label">Currently working on</div>
       <div class="current-task-name">Write essay introduction</div>
       <div class="current-task-sub">English · Due today at 3:00 PM</div>
     </div>
 
-    <!-- SESSION STATS -->
+    <!-- Session stats: how many sessions, total focus time, breaks taken -->
     <div class="session-stats">
       <div class="stat-item">
         <div class="val">3</div>
@@ -304,6 +329,7 @@
 
   </main>
 
+  <!-- Motivational message at the bottom -->
   <footer class="focus-footer">Press ▶ to start your focus session · Stay focused, you've got this 💪</footer>
 
 </body>

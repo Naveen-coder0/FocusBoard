@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- ============================================================
+     FocusBoard — Tasks Page (tasks.html)
+  Author: Harshit
+     Responsibility: Filter bar, task card list (pending +
+                     completed), Add Task form UI
+     ============================================================ -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,16 +12,18 @@
   <title>FocusBoard — Tasks</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* -- Harshit: Two-column page layout (list | form) -- */
     .tasks-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
 
-    /* FILTER BAR */
+    /* Row of filter buttons at the top */
     .filter-bar {
       display: flex;
       gap: 8px;
       margin-bottom: 20px;
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* wraps to next line on small screens */
     }
 
+    /* Each filter button (pill shape) */
     .filter-btn {
       padding: 7px 16px;
       border-radius: 20px;
@@ -28,13 +36,15 @@
       transition: all var(--transition);
     }
 
-    .filter-btn:hover, .filter-btn.active {
+    /* Active or hovered filter button turns blue */
+    .filter-btn:hover,
+    .filter-btn.active {
       background: var(--accent);
       border-color: var(--accent);
       color: #fff;
     }
 
-    /* TASK CARD */
+    /* One task card row */
     .task-card {
       display: flex;
       align-items: flex-start;
@@ -44,28 +54,44 @@
       transition: box-shadow var(--transition), transform var(--transition);
     }
 
-    .task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    /* Task card lifts on hover */
+    .task-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
 
+    /* Round checkbox on the left of each task */
     .task-card-check {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 2px solid var(--border);
       flex-shrink: 0;
       margin-top: 2px;
     }
 
-    .task-card-check.done { background: var(--accent); border-color: var(--accent); }
+    /* Blue filled = task is done */
+    .task-card-check.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
     .task-card-body { flex: 1; }
 
+    /* Task title text */
     .task-card-title {
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 6px;
     }
 
-    .task-card-title.done { color: var(--text-light); text-decoration: line-through; }
+    /* Strikethrough grey text for completed tasks */
+    .task-card-title.done {
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
 
+    /* Row of small info below the title: subject, date, status */
     .task-card-meta {
       display: flex;
       align-items: center;
@@ -75,15 +101,21 @@
 
     .task-card-meta span { font-size: 12px; color: var(--text-muted); }
 
+    /* The dot separator between meta items */
     .meta-dot { color: var(--border) !important; }
 
-    /* ADD TASK FORM */
-    .form-card { padding: 24px; align-self: start; }
+    /* Add Task form card on the right */
+    .form-card {
+      padding: 24px;
+      align-self: start; /* sticks to the top */
+    }
 
     .form-title { font-size: 15px; font-weight: 700; margin-bottom: 18px; }
 
+    /* Spacing between each form field */
     .form-group { margin-bottom: 14px; }
 
+    /* Label above each input */
     .form-label {
       display: block;
       font-size: 12px;
@@ -94,7 +126,9 @@
       letter-spacing: 0.4px;
     }
 
-    .form-input, .form-select {
+    /* Text inputs, dropdowns, and textarea */
+    .form-input,
+    .form-select {
       width: 100%;
       padding: 10px 14px;
       border: 1.5px solid var(--border);
@@ -107,19 +141,26 @@
       transition: border-color var(--transition);
     }
 
-    .form-input:focus, .form-select:focus { border-color: var(--accent); }
+    /* Blue border when the field is focused/clicked */
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--accent);
+    }
 
     .form-input::placeholder { color: var(--text-light); }
 
+    /* On tablet/mobile: form goes below the task list */
     @media (max-width: 900px) {
       .tasks-layout { grid-template-columns: 1fr; }
     }
+
   </style>
 </head>
 <body>
 
 <div class="app-layout">
 
+  <!-- Left sidebar navigation -->
   <aside class="sidebar">
     <div class="logo">⚡ FocusBoard</div>
     <nav>
@@ -140,12 +181,13 @@
 
   <main class="main-content">
 
+    <!-- Page title with task count summary -->
     <div class="page-header">
       <h1>Tasks</h1>
       <p>8 tasks total · 3 completed · 5 remaining</p>
     </div>
 
-    <!-- FILTER BAR -->
+    <!-- Filter buttons to show different task groups -->
     <div class="filter-bar">
       <button class="filter-btn active">All</button>
       <button class="filter-btn">Pending</button>
@@ -158,12 +200,13 @@
 
     <div class="tasks-layout">
 
-      <!-- TASK LIST -->
+      <!-- Left: task list -->
       <div>
 
-        <!-- PENDING -->
+        <!-- Section label -->
         <div class="section-title">Pending</div>
 
+        <!-- Task: English essay due today -->
         <div class="card task-card">
           <div class="task-card-check"></div>
           <div class="task-card-body">
@@ -178,6 +221,7 @@
           </div>
         </div>
 
+        <!-- Task: Math problem set due today -->
         <div class="card task-card">
           <div class="task-card-check"></div>
           <div class="task-card-body">
@@ -192,6 +236,7 @@
           </div>
         </div>
 
+        <!-- Task: History presentation -->
         <div class="card task-card">
           <div class="task-card-check"></div>
           <div class="task-card-body">
@@ -206,6 +251,7 @@
           </div>
         </div>
 
+        <!-- Task: Physics lab report -->
         <div class="card task-card">
           <div class="task-card-check"></div>
           <div class="task-card-body">
@@ -220,6 +266,7 @@
           </div>
         </div>
 
+        <!-- Task: Biology project -->
         <div class="card task-card">
           <div class="task-card-check"></div>
           <div class="task-card-body">
@@ -234,9 +281,10 @@
           </div>
         </div>
 
-        <!-- COMPLETED -->
+        <!-- Section label for completed tasks -->
         <div class="section-title" style="margin-top:28px;">Completed</div>
 
+        <!-- Completed: Physics reading -->
         <div class="card task-card">
           <div class="task-card-check done"></div>
           <div class="task-card-body">
@@ -251,6 +299,7 @@
           </div>
         </div>
 
+        <!-- Completed: Biology notes -->
         <div class="card task-card">
           <div class="task-card-check done"></div>
           <div class="task-card-body">
@@ -265,6 +314,7 @@
           </div>
         </div>
 
+        <!-- Completed: Algebra practice -->
         <div class="card task-card">
           <div class="task-card-check done"></div>
           <div class="task-card-body">
@@ -281,15 +331,17 @@
 
       </div>
 
-      <!-- ADD TASK FORM -->
+      <!-- Right: Add New Task form (UI only, no JavaScript) -->
       <div class="card form-card">
         <div class="form-title">+ Add New Task</div>
 
+        <!-- Task name field -->
         <div class="form-group">
           <label class="form-label">Task Title</label>
           <input class="form-input" type="text" placeholder="e.g. Read Chapter 6" />
         </div>
 
+        <!-- Subject picker -->
         <div class="form-group">
           <label class="form-label">Subject</label>
           <select class="form-select">
@@ -301,11 +353,13 @@
           </select>
         </div>
 
+        <!-- Deadline date picker -->
         <div class="form-group">
           <label class="form-label">Deadline</label>
           <input class="form-input" type="date" />
         </div>
 
+        <!-- Priority level picker -->
         <div class="form-group">
           <label class="form-label">Priority</label>
           <select class="form-select">
@@ -315,11 +369,13 @@
           </select>
         </div>
 
+        <!-- Optional notes box -->
         <div class="form-group" style="margin-bottom:20px;">
           <label class="form-label">Notes</label>
           <textarea class="form-input" rows="3" placeholder="Optional notes..." style="resize:vertical"></textarea>
         </div>
 
+        <!-- Submit button (visual only) -->
         <button class="btn btn-primary" style="width:100%; justify-content:center;">Add Task</button>
       </div>
 

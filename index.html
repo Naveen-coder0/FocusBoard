@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  FocusBoard - Home / Landing Page
+  Author: Krishnam Makker
+  This is the first page visitors see.
+  It has a navbar, hero section, app preview, and feature cards.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +12,8 @@
   <title>FocusBoard — Focus on what matters</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── HOME-SPECIFIC ── */
+
+    /* Big centered hero section at the top */
     .hero {
       max-width: 760px;
       margin: 80px auto 0;
@@ -14,6 +21,7 @@
       padding: 0 24px;
     }
 
+    /* Small pill label above the heading */
     .hero-eyebrow {
       display: inline-block;
       background: var(--accent-light);
@@ -23,9 +31,9 @@
       padding: 5px 14px;
       border-radius: 20px;
       margin-bottom: 22px;
-      letter-spacing: 0.3px;
     }
 
+    /* Main big heading - font size adjusts with screen size */
     .hero h1 {
       font-size: clamp(36px, 6vw, 58px);
       font-weight: 700;
@@ -34,8 +42,12 @@
       color: var(--text);
     }
 
-    .hero h1 span { color: var(--accent); }
+    /* Blue colored word inside the heading */
+    .hero h1 span {
+      color: var(--accent);
+    }
 
+    /* Subtitle paragraph below the heading */
     .hero p {
       margin: 20px auto 36px;
       max-width: 480px;
@@ -44,15 +56,22 @@
       line-height: 1.7;
     }
 
-    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    /* Row of two CTA buttons */
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-    /* ── MOCKUP ── */
+    /* Wrapper that centers the app preview image */
     .mockup-wrap {
       max-width: 900px;
       margin: 64px auto;
       padding: 0 24px;
     }
 
+    /* The fake browser window box */
     .mockup {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -61,6 +80,7 @@
       overflow: hidden;
     }
 
+    /* Top bar of the fake browser with colored dots */
     .mockup-bar {
       background: var(--bg);
       border-bottom: 1px solid var(--border);
@@ -70,16 +90,19 @@
       gap: 8px;
     }
 
+    /* The three colored circles (red, yellow, green) */
     .dot { width: 11px; height: 11px; border-radius: 50%; }
     .dot-r { background: #ff5f57; }
     .dot-y { background: #febc2e; }
     .dot-g { background: #28c840; }
 
+    /* Inside the fake browser - sidebar + content side by side */
     .mockup-inner {
       display: flex;
       height: 340px;
     }
 
+    /* Mini sidebar inside the fake browser */
     .mockup-sidebar {
       width: 160px;
       border-right: 1px solid var(--border);
@@ -90,6 +113,7 @@
       flex-shrink: 0;
     }
 
+    /* Each nav item inside the mini sidebar */
     .mock-nav-item {
       padding: 8px 10px;
       border-radius: 7px;
@@ -101,8 +125,13 @@
       gap: 8px;
     }
 
-    .mock-nav-item.active { background: var(--accent-light); color: var(--accent); }
+    /* Highlighted nav item (current page) */
+    .mock-nav-item.active {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
 
+    /* Right side of the fake browser - shows stats and tasks */
     .mockup-body {
       flex: 1;
       padding: 20px;
@@ -112,10 +141,21 @@
       overflow: hidden;
     }
 
-    .mock-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    /* Greeting text inside the mockup */
+    .mock-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
 
-    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    /* 3 small stat boxes in a row */
+    .mock-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
 
+    /* Each small stat box */
     .mock-card {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -126,8 +166,14 @@
     .mock-card-label { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
     .mock-card-val   { font-size: 18px; font-weight: 700; color: var(--text); }
 
-    .mock-task-list { display: flex; flex-direction: column; gap: 7px; }
+    /* List of task rows inside the mockup */
+    .mock-task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
 
+    /* One task row */
     .mock-task {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -139,25 +185,37 @@
       font-size: 12px;
     }
 
+    /* Small circle checkbox */
     .mock-check {
-      width: 14px; height: 14px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       border: 2px solid var(--border);
       flex-shrink: 0;
     }
 
-    .mock-check.done { background: var(--accent); border-color: var(--accent); }
+    /* Filled blue circle = task is done */
+    .mock-check.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
     .mock-task-text { flex: 1; color: var(--text); }
-    .mock-task-text.done { color: var(--text-light); text-decoration: line-through; }
 
-    /* ── FEATURES ── */
+    /* Strikethrough text for completed tasks */
+    .mock-task-text.done {
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    /* Section with 3 feature cards */
     .features {
       max-width: 900px;
       margin: 0 auto 80px;
       padding: 0 24px;
     }
 
+    /* Small label above the feature cards */
     .features-label {
       text-align: center;
       font-size: 13px;
@@ -168,28 +226,17 @@
       margin-bottom: 40px;
     }
 
-    .feature-card {
-      padding: 28px;
-    }
+    /* Each feature card has more padding */
+    .feature-card { padding: 28px; }
 
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 14px;
-    }
+    /* Big emoji icon at the top of each feature card */
+    .feature-icon { font-size: 28px; margin-bottom: 14px; }
 
-    .feature-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
 
-    .feature-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
+    .feature-card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
 
-    /* ── FOOTER ── */
+    /* Bottom footer bar */
     footer {
       text-align: center;
       padding: 32px;
@@ -198,15 +245,17 @@
       font-size: 13px;
     }
 
+    /* On mobile: hide the mini sidebar and use 2 columns for stat cards */
     @media (max-width: 768px) {
       .mockup-sidebar { display: none; }
       .mock-cards { grid-template-columns: repeat(2, 1fr); }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- Top navigation bar with links to all pages -->
   <header class="navbar">
     <div class="logo">⚡ FocusBoard</div>
     <nav>
@@ -219,7 +268,7 @@
     <a href="dashboard.html" class="btn btn-primary">Open App</a>
   </header>
 
-  <!-- HERO -->
+  <!-- Hero section: big headline + subtitle + two buttons -->
   <section class="hero">
     <span class="hero-eyebrow">✦ Built for students</span>
     <h1>Focus on<br /><span>what matters.</span></h1>
@@ -230,23 +279,32 @@
     </div>
   </section>
 
-  <!-- MOCKUP -->
+  <!-- Fake browser window showing what the app looks like -->
   <div class="mockup-wrap">
     <div class="mockup">
+
+      <!-- Browser top bar with red/yellow/green dots -->
       <div class="mockup-bar">
         <div class="dot dot-r"></div>
         <div class="dot dot-y"></div>
         <div class="dot dot-g"></div>
       </div>
+
       <div class="mockup-inner">
+
+        <!-- Mini sidebar inside the fake browser -->
         <div class="mockup-sidebar">
           <div class="mock-nav-item active">📊 Dashboard</div>
           <div class="mock-nav-item">✅ Tasks</div>
           <div class="mock-nav-item">📅 Deadlines</div>
           <div class="mock-nav-item">🎯 Focus Mode</div>
         </div>
+
+        <!-- Main content inside the fake browser -->
         <div class="mockup-body">
           <div class="mock-title">Good morning, Alex 👋</div>
+
+          <!-- 3 small stat boxes -->
           <div class="mock-cards">
             <div class="mock-card">
               <div class="mock-card-label">Tasks Today</div>
@@ -261,6 +319,8 @@
               <div class="mock-card-val">2.5</div>
             </div>
           </div>
+
+          <!-- Sample task rows -->
           <div class="mock-task-list">
             <div class="mock-task">
               <div class="mock-check done"></div>
@@ -279,32 +339,41 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  <!-- FEATURES -->
+  <!-- 3 feature cards explaining what the app does -->
   <section class="features">
     <p class="features-label">Everything you need</p>
     <div class="grid-3">
+
+      <!-- Feature 1: Tasks -->
       <div class="card feature-card">
         <div class="feature-icon">✅</div>
         <h3>Smart Task Management</h3>
         <p>Organize tasks by subject, priority, and deadline. Keep everything in one place.</p>
       </div>
+
+      <!-- Feature 2: Deadlines -->
       <div class="card feature-card">
         <div class="feature-icon">📅</div>
         <h3>Deadline Tracker</h3>
         <p>Visual calendar view of all your upcoming deadlines. Never miss a submission again.</p>
       </div>
+
+      <!-- Feature 3: Focus Mode -->
       <div class="card feature-card">
         <div class="feature-icon">🎯</div>
         <h3>Focus Mode</h3>
         <p>Distraction-free Pomodoro timer. Lock in, get work done, and track your focus hours.</p>
       </div>
+
     </div>
   </section>
 
+  <!-- Page footer -->
   <footer>© 2025 FocusBoard — Designed for students who mean business.</footer>
 
 </body>

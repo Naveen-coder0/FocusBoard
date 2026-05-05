@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  FocusBoard - Dashboard Page
+  Author: Mittal
+  This is the main app page.
+  It shows today's tasks, progress bars, and upcoming deadlines.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,15 +12,29 @@
   <title>FocusBoard — Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
 
-    .stat-card { padding: 20px 24px; }
+    /* 3 stat cards in a row at the top */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    /* Styles for each stat card */
+    .stat-card  { padding: 20px 24px; }
     .stat-label { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .stat-value { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
+    .stat-value { font-size: 32px; font-weight: 700; color: var(--text); }
     .stat-sub   { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-    .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
+    /* Two columns: left for tasks/progress, right for deadlines */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+    }
 
+    /* One task row inside the tasks card */
     .task-item {
       display: flex;
       align-items: center;
@@ -22,26 +42,56 @@
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
     }
-    .task-item:last-child { border-bottom: none; padding-bottom: 0; }
 
+    /* Remove border from the last task row */
+    .task-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* Round checkbox circle on the left of each task */
     .task-check {
-      width: 18px; height: 18px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       border: 2px solid var(--border);
       flex-shrink: 0;
     }
-    .task-check.done { background: var(--accent); border-color: var(--accent); }
+
+    /* Blue filled circle = task is done */
+    .task-check.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
     .task-info { flex: 1; }
     .task-name { font-size: 14px; font-weight: 500; }
-    .task-name.done { color: var(--text-light); text-decoration: line-through; }
+
+    /* Strikethrough + grey text for completed tasks */
+    .task-name.done {
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
     .task-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
+    /* Container for all the progress bars */
     .progress-section { margin-top: 20px; }
+
+    /* One subject row with label and bar */
     .progress-row { margin-bottom: 14px; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+
+    /* Label row above each bar: subject name on left, % on right */
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
     .progress-label span:last-child { color: var(--text-muted); }
 
+    /* One deadline row in the right panel */
     .deadline-item {
       display: flex;
       align-items: flex-start;
@@ -49,8 +99,10 @@
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
     }
+
     .deadline-item:last-child { border-bottom: none; }
 
+    /* Blue date box showing day and month */
     .deadline-date {
       background: var(--accent-light);
       color: var(--accent);
@@ -60,25 +112,30 @@
       flex-shrink: 0;
       min-width: 44px;
     }
-    .deadline-date .day  { font-size: 18px; font-weight: 700; line-height: 1; }
-    .deadline-date .mon  { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+
+    .deadline-date .day { font-size: 18px; font-weight: 700; line-height: 1; }
+    .deadline-date .mon { font-size: 10px; font-weight: 600; text-transform: uppercase; }
 
     .deadline-info .title { font-size: 13px; font-weight: 600; }
     .deadline-info .sub   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
+    /* On tablet: stack the two columns into one */
     @media (max-width: 900px) {
       .two-col { grid-template-columns: 1fr; }
     }
+
+    /* On mobile: stat grid becomes 2 columns */
     @media (max-width: 768px) {
       .stat-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
   </style>
 </head>
 <body>
 
 <div class="app-layout">
 
-  <!-- SIDEBAR -->
+  <!-- Left sidebar with navigation links -->
   <aside class="sidebar">
     <div class="logo">⚡ FocusBoard</div>
     <nav>
@@ -97,15 +154,16 @@
     </nav>
   </aside>
 
-  <!-- MAIN -->
+  <!-- Main page content -->
   <main class="main-content">
 
+    <!-- Page title and today's date -->
     <div class="page-header">
       <h1>Good morning, Alex 👋</h1>
       <p>Monday, 14 July 2025 — You have 3 tasks due today.</p>
     </div>
 
-    <!-- STATS -->
+    <!-- 3 stat cards: tasks, focus hours, streak -->
     <div class="stat-grid">
       <div class="card stat-card">
         <div class="stat-label">Tasks Today</div>
@@ -124,14 +182,17 @@
       </div>
     </div>
 
+    <!-- Two column layout: left = tasks + progress, right = deadlines -->
     <div class="two-col">
 
-      <!-- LEFT: TASKS + PROGRESS -->
+      <!-- Left column -->
       <div style="display:flex; flex-direction:column; gap:20px;">
 
-        <!-- TODAY'S TASKS -->
+        <!-- Today's tasks card -->
         <div class="card">
           <div class="section-title">Today's Tasks</div>
+
+          <!-- Completed task -->
           <div class="task-item">
             <div class="task-check done"></div>
             <div class="task-info">
@@ -140,6 +201,8 @@
             </div>
             <span class="badge badge-success">Done</span>
           </div>
+
+          <!-- Completed task -->
           <div class="task-item">
             <div class="task-check done"></div>
             <div class="task-info">
@@ -148,6 +211,8 @@
             </div>
             <span class="badge badge-success">Done</span>
           </div>
+
+          <!-- Pending task due today -->
           <div class="task-item">
             <div class="task-check"></div>
             <div class="task-info">
@@ -156,6 +221,8 @@
             </div>
             <span class="badge badge-warning">Due today</span>
           </div>
+
+          <!-- Pending task due today -->
           <div class="task-item">
             <div class="task-check"></div>
             <div class="task-info">
@@ -164,6 +231,8 @@
             </div>
             <span class="badge badge-warning">Due today</span>
           </div>
+
+          <!-- Pending task due tomorrow -->
           <div class="task-item">
             <div class="task-check"></div>
             <div class="task-info">
@@ -174,34 +243,45 @@
           </div>
         </div>
 
-        <!-- PROGRESS -->
+        <!-- Weekly progress card with one bar per subject -->
         <div class="card">
           <div class="section-title">Weekly Progress</div>
           <div class="progress-section">
+
+            <!-- Math: 75% done -->
             <div class="progress-row">
               <div class="progress-label"><span>Mathematics</span><span>75%</span></div>
               <div class="progress-wrap"><div class="progress-bar" style="width:75%"></div></div>
             </div>
+
+            <!-- Physics: 60% done -->
             <div class="progress-row">
               <div class="progress-label"><span>Physics</span><span>60%</span></div>
               <div class="progress-wrap"><div class="progress-bar" style="width:60%; background:#7c3aed"></div></div>
             </div>
+
+            <!-- English: 40% done -->
             <div class="progress-row">
               <div class="progress-label"><span>English</span><span>40%</span></div>
               <div class="progress-wrap"><div class="progress-bar" style="width:40%; background:#f59e0b"></div></div>
             </div>
+
+            <!-- Biology: 90% done -->
             <div class="progress-row" style="margin-bottom:0">
               <div class="progress-label"><span>Biology</span><span>90%</span></div>
               <div class="progress-wrap"><div class="progress-bar" style="width:90%; background:#22c55e"></div></div>
             </div>
+
           </div>
         </div>
 
       </div>
 
-      <!-- RIGHT: DEADLINES -->
+      <!-- Right column: upcoming deadlines list -->
       <div class="card" style="align-self:start;">
         <div class="section-title">Upcoming Deadlines</div>
+
+        <!-- Deadline today -->
         <div class="deadline-item">
           <div class="deadline-date"><div class="day">14</div><div class="mon">Jul</div></div>
           <div class="deadline-info">
@@ -209,6 +289,8 @@
             <div class="sub">English · <span class="badge badge-danger" style="font-size:11px">Today</span></div>
           </div>
         </div>
+
+        <!-- Deadline in 2 days -->
         <div class="deadline-item">
           <div class="deadline-date"><div class="day">16</div><div class="mon">Jul</div></div>
           <div class="deadline-info">
@@ -216,6 +298,8 @@
             <div class="sub">History · <span class="badge badge-warning" style="font-size:11px">2 days</span></div>
           </div>
         </div>
+
+        <!-- Deadline in 4 days -->
         <div class="deadline-item">
           <div class="deadline-date"><div class="day">18</div><div class="mon">Jul</div></div>
           <div class="deadline-info">
@@ -223,6 +307,8 @@
             <div class="sub">Physics · <span class="badge badge-blue" style="font-size:11px">4 days</span></div>
           </div>
         </div>
+
+        <!-- Deadline in 8 days -->
         <div class="deadline-item">
           <div class="deadline-date"><div class="day">22</div><div class="mon">Jul</div></div>
           <div class="deadline-info">
@@ -230,6 +316,8 @@
             <div class="sub">Mathematics · <span class="badge badge-blue" style="font-size:11px">8 days</span></div>
           </div>
         </div>
+
+        <!-- Deadline in 11 days -->
         <div class="deadline-item">
           <div class="deadline-date"><div class="day">25</div><div class="mon">Jul</div></div>
           <div class="deadline-info">
@@ -237,6 +325,8 @@
             <div class="sub">Biology · <span class="badge badge-blue" style="font-size:11px">11 days</span></div>
           </div>
         </div>
+
+        <!-- Button to go to the full deadlines page -->
         <a href="deadlines.html" class="btn btn-outline" style="width:100%; justify-content:center; margin-top:16px;">View All Deadlines</a>
       </div>
 

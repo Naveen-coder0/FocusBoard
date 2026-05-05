@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  FocusBoard - Deadlines Page
+  Author: Naveen Maan
+  This page shows a calendar for July 2025.
+  Dates with deadlines have colored dots.
+  The right panel lists all upcoming deadlines.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,11 +13,18 @@
   <title>FocusBoard — Deadlines</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .deadlines-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
 
-    /* CALENDAR */
+    /* Two columns: calendar on left, deadline list on right */
+    .deadlines-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+    }
+
+    /* Extra padding inside the calendar card */
     .calendar-card { padding: 24px; }
 
+    /* Top row of the calendar: month name + arrow buttons */
     .cal-header {
       display: flex;
       align-items: center;
@@ -20,13 +34,13 @@
 
     .cal-header h2 { font-size: 18px; font-weight: 700; }
 
-    .cal-nav {
-      display: flex;
-      gap: 8px;
-    }
+    /* Wrapper for the two arrow buttons */
+    .cal-nav { display: flex; gap: 8px; }
 
+    /* Each arrow button (prev/next month) */
     .cal-nav-btn {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--border);
       background: var(--surface);
@@ -39,8 +53,13 @@
       transition: all var(--transition);
     }
 
-    .cal-nav-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .cal-nav-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
+    /* Row of weekday names: Sun Mon Tue ... */
     .cal-weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -58,14 +77,16 @@
       padding: 6px 0;
     }
 
+    /* The main calendar grid: 7 columns, one per day of week */
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
     }
 
+    /* Each day cell in the calendar */
     .cal-day {
-      aspect-ratio: 1;
+      aspect-ratio: 1; /* keeps cells square */
       border-radius: var(--radius-sm);
       display: flex;
       flex-direction: column;
@@ -82,8 +103,10 @@
 
     .cal-day:hover { background: var(--bg); }
 
+    /* Days from the previous or next month are very light */
     .cal-day.other-month { color: var(--border); }
 
+    /* Today's date gets a blue background */
     .cal-day.today {
       background: var(--accent);
       color: #fff;
@@ -92,33 +115,58 @@
 
     .cal-day.today:hover { background: var(--accent-dark); }
 
+    /* Days with a deadline get a light grey background */
     .cal-day.has-deadline { background: var(--bg); }
 
+    /* The day number inside each cell */
     .cal-day-num { line-height: 1; margin-bottom: 4px; }
 
-    .cal-dots { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
-
-    .cal-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
+    /* Row of colored dots below the day number */
+    .cal-dots {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .dot-math    { background: #4f7ef8; }
-    .dot-physics { background: #7c3aed; }
-    .dot-english { background: #be185d; }
-    .dot-history { background: #f59e0b; }
-    .dot-biology { background: #22c55e; }
+    /* One colored dot */
+    .cal-dot { width: 6px; height: 6px; border-radius: 50%; }
 
-    /* LEGEND */
-    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    /* Each subject has its own dot color */
+    .dot-math    { background: #4f7ef8; } /* blue */
+    .dot-physics { background: #7c3aed; } /* purple */
+    .dot-english { background: #be185d; } /* pink */
+    .dot-history { background: #f59e0b; } /* amber */
+    .dot-biology { background: #22c55e; } /* green */
 
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+    /* Color legend below the calendar */
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
 
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Larger dot used in the legend */
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-    /* DEADLINE LIST */
-    .deadline-list-card { padding: 24px; align-self: start; }
+    /* Right panel: list of upcoming deadlines */
+    .deadline-list-card {
+      padding: 24px;
+      align-self: start; /* sticks to the top */
+    }
 
+    /* One deadline row */
     .dl-item {
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
@@ -126,6 +174,7 @@
 
     .dl-item:last-child { border-bottom: none; padding-bottom: 0; }
 
+    /* Top row of each deadline: title on left, badge on right */
     .dl-top {
       display: flex;
       align-items: center;
@@ -137,17 +186,21 @@
 
     .dl-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
+    /* Progress bar below each deadline */
     .dl-bar-wrap { margin-top: 8px; }
 
+    /* On tablet/mobile: stack calendar and list into one column */
     @media (max-width: 900px) {
       .deadlines-layout { grid-template-columns: 1fr; }
     }
+
   </style>
 </head>
 <body>
 
 <div class="app-layout">
 
+  <!-- Left sidebar navigation -->
   <aside class="sidebar">
     <div class="logo">⚡ FocusBoard</div>
     <nav>
@@ -168,6 +221,7 @@
 
   <main class="main-content">
 
+    <!-- Page title -->
     <div class="page-header">
       <h1>Deadlines</h1>
       <p>5 upcoming deadlines this month</p>
@@ -175,8 +229,10 @@
 
     <div class="deadlines-layout">
 
-      <!-- CALENDAR -->
+      <!-- Calendar card -->
       <div class="card calendar-card">
+
+        <!-- Month name and navigation arrows -->
         <div class="cal-header">
           <h2>July 2025</h2>
           <div class="cal-nav">
@@ -185,6 +241,7 @@
           </div>
         </div>
 
+        <!-- Weekday column headers -->
         <div class="cal-weekdays">
           <div class="cal-weekday">Sun</div>
           <div class="cal-weekday">Mon</div>
@@ -195,8 +252,10 @@
           <div class="cal-weekday">Sat</div>
         </div>
 
+        <!-- All day cells for July 2025 -->
         <div class="cal-grid">
-          <!-- Week 1: Jun 29 – Jul 5 -->
+
+          <!-- Week 1: Jun 29-30 (grey) + Jul 1-5 -->
           <div class="cal-day other-month"><span class="cal-day-num">29</span></div>
           <div class="cal-day other-month"><span class="cal-day-num">30</span></div>
           <div class="cal-day"><span class="cal-day-num">1</span></div>
@@ -205,7 +264,7 @@
           <div class="cal-day"><span class="cal-day-num">4</span></div>
           <div class="cal-day"><span class="cal-day-num">5</span></div>
 
-          <!-- Week 2: Jul 6–12 -->
+          <!-- Week 2: Jul 6-12 -->
           <div class="cal-day"><span class="cal-day-num">6</span></div>
           <div class="cal-day"><span class="cal-day-num">7</span></div>
           <div class="cal-day"><span class="cal-day-num">8</span></div>
@@ -214,40 +273,55 @@
           <div class="cal-day"><span class="cal-day-num">11</span></div>
           <div class="cal-day"><span class="cal-day-num">12</span></div>
 
-          <!-- Week 3: Jul 13–19 -->
+          <!-- Week 3: Jul 13-19 -->
           <div class="cal-day"><span class="cal-day-num">13</span></div>
+
+          <!-- Jul 14 = today, has English deadline (pink dot) -->
           <div class="cal-day today has-deadline">
             <span class="cal-day-num">14</span>
             <div class="cal-dots"><div class="cal-dot dot-english"></div></div>
           </div>
+
           <div class="cal-day"><span class="cal-day-num">15</span></div>
+
+          <!-- Jul 16 = History deadline (amber dot) -->
           <div class="cal-day has-deadline">
             <span class="cal-day-num">16</span>
             <div class="cal-dots"><div class="cal-dot dot-history"></div></div>
           </div>
+
           <div class="cal-day"><span class="cal-day-num">17</span></div>
+
+          <!-- Jul 18 = Physics deadline (purple dot) -->
           <div class="cal-day has-deadline">
             <span class="cal-day-num">18</span>
             <div class="cal-dots"><div class="cal-dot dot-physics"></div></div>
           </div>
+
           <div class="cal-day"><span class="cal-day-num">19</span></div>
 
-          <!-- Week 4: Jul 20–26 -->
+          <!-- Week 4: Jul 20-26 -->
           <div class="cal-day"><span class="cal-day-num">20</span></div>
           <div class="cal-day"><span class="cal-day-num">21</span></div>
+
+          <!-- Jul 22 = Math deadline (blue dot) -->
           <div class="cal-day has-deadline">
             <span class="cal-day-num">22</span>
             <div class="cal-dots"><div class="cal-dot dot-math"></div></div>
           </div>
+
           <div class="cal-day"><span class="cal-day-num">23</span></div>
           <div class="cal-day"><span class="cal-day-num">24</span></div>
+
+          <!-- Jul 25 = Biology deadline (green dot) -->
           <div class="cal-day has-deadline">
             <span class="cal-day-num">25</span>
             <div class="cal-dots"><div class="cal-dot dot-biology"></div></div>
           </div>
+
           <div class="cal-day"><span class="cal-day-num">26</span></div>
 
-          <!-- Week 5: Jul 27–31 + Aug 1–2 -->
+          <!-- Week 5: Jul 27-31 + Aug 1-2 (grey) -->
           <div class="cal-day"><span class="cal-day-num">27</span></div>
           <div class="cal-day"><span class="cal-day-num">28</span></div>
           <div class="cal-day"><span class="cal-day-num">29</span></div>
@@ -255,9 +329,10 @@
           <div class="cal-day"><span class="cal-day-num">31</span></div>
           <div class="cal-day other-month"><span class="cal-day-num">1</span></div>
           <div class="cal-day other-month"><span class="cal-day-num">2</span></div>
+
         </div>
 
-        <!-- LEGEND -->
+        <!-- Color legend: which color = which subject -->
         <div class="legend">
           <div class="legend-item"><div class="legend-dot dot-math"></div> Mathematics</div>
           <div class="legend-item"><div class="legend-dot dot-physics"></div> Physics</div>
@@ -265,12 +340,14 @@
           <div class="legend-item"><div class="legend-dot dot-history"></div> History</div>
           <div class="legend-item"><div class="legend-dot dot-biology"></div> Biology</div>
         </div>
+
       </div>
 
-      <!-- DEADLINE LIST -->
+      <!-- Right panel: upcoming deadlines list -->
       <div class="card deadline-list-card">
         <div class="section-title">Upcoming</div>
 
+        <!-- English essay - due today -->
         <div class="dl-item">
           <div class="dl-top">
             <div class="dl-title">English Essay Draft</div>
@@ -282,6 +359,7 @@
           </div>
         </div>
 
+        <!-- History presentation - 2 days away -->
         <div class="dl-item">
           <div class="dl-top">
             <div class="dl-title">History Presentation</div>
@@ -293,6 +371,7 @@
           </div>
         </div>
 
+        <!-- Physics lab report - 4 days away -->
         <div class="dl-item">
           <div class="dl-top">
             <div class="dl-title">Physics Lab Report</div>
@@ -304,6 +383,7 @@
           </div>
         </div>
 
+        <!-- Math exam - 8 days away -->
         <div class="dl-item">
           <div class="dl-top">
             <div class="dl-title">Math Final Exam</div>
@@ -315,6 +395,7 @@
           </div>
         </div>
 
+        <!-- Biology project - 11 days away -->
         <div class="dl-item">
           <div class="dl-top">
             <div class="dl-title">Biology Project</div>

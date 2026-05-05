@@ -1,229 +1,541 @@
+/* ============================================================
+   FocusBoard - Main Stylesheet
+   
+   Team Members:
+     - Krishnam Makker  (style.css + index.html)
+     - Harshit          (tasks.html)
+     - Naveen Maan      (deadlines.html)
+     - Mittal           (dashboard.html + focus.html)
+   
+   Author of this file: Krishnam Makker
+   
+   What this file does:
+   This single CSS file is shared by ALL 5 pages.
+   It defines colors, fonts, layout, cards, buttons,
+   badges, progress bars, and mobile responsiveness.
+   ============================================================ */
+
+
+/* ============================================================
+   GOOGLE FONT IMPORT
+   Loads the "Inter" font from the internet.
+   wght=300;400;500;600;700 means we load 5 different
+   font weights (thin to bold).
+   ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+
+/* ============================================================
+   CSS VARIABLES (Design Tokens)
+   
+   :root means these variables are available EVERYWHERE
+   in the whole stylesheet.
+   
+   We use var(--name) to use these values later.
+   Changing a value here updates it across all pages.
+   ============================================================ */
 :root {
-  --bg: #f7f8fa;
-  --surface: #ffffff;
-  --border: #e4e7ec;
-  --accent: #4f7ef8;
-  --accent-light: #eef2ff;
-  --accent-dark: #3a63d4;
-  --text: #1a1d23;
-  --text-muted: #6b7280;
-  --text-light: #9ca3af;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.07);
-  --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
-  --sidebar-w: 220px;
-  --transition: 0.2s ease;
+  --bg: #f7f8fa;           /* light grey — used as page background */
+  --surface: #ffffff;      /* pure white — used for cards and panels */
+  --border: #e4e7ec;       /* soft grey — used for all borders/dividers */
+  --accent: #4f7ef8;       /* main blue — buttons, active links, highlights */
+  --accent-light: #eef2ff; /* very light blue — hover backgrounds */
+  --accent-dark: #3a63d4;  /* darker blue — used on button hover */
+  --text: #1a1d23;         /* near-black — main body text */
+  --text-muted: #6b7280;   /* medium grey — subtitles, meta info */
+  --text-light: #9ca3af;   /* light grey — labels, placeholders */
+  --radius: 14px;          /* border-radius for large cards */
+  --radius-sm: 8px;        /* border-radius for small elements like buttons */
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);    /* subtle shadow for cards */
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.10); /* stronger shadow on hover */
+  --sidebar-w: 220px;      /* fixed width of the left sidebar */
+  --transition: 0.2s ease; /* animation duration for hover effects */
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ============================================================
+   CSS RESET
+   
+   Browsers add default margin/padding to elements.
+   We remove all of that so we have full control.
+   
+   * = applies to every single element
+   *::before and *::after = applies to pseudo-elements too
+   
+   box-sizing: border-box means padding and border are
+   INCLUDED in the element's total width/height.
+   Without this, padding would ADD to the width (confusing).
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   BASE BODY STYLES
+   
+   font-family: tries Inter first, falls back to any sans-serif
+   line-height: 1.6 means each line is 1.6x the font size tall
+   ============================================================ */
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.6; /* comfortable reading spacing between lines */
 }
 
-a { text-decoration: none; color: inherit; }
+/* Remove blue underline from all anchor/link tags */
+a {
+  text-decoration: none;
+  color: inherit; /* inherit = use the parent element's color */
+}
 
-/* ── SIDEBAR LAYOUT ── */
+
+/* ============================================================
+   APP LAYOUT — SIDEBAR + MAIN CONTENT
+   
+   display: flex — turns this into a flex container.
+   Children (sidebar + main) will sit SIDE BY SIDE
+   because the default flex-direction is "row".
+   
+   flex-direction: row (default) = children go left → right
+   flex-direction: column = children go top → bottom
+   
+   min-height: 100vh — at least as tall as the screen.
+   vh = viewport height. 100vh = 100% of screen height.
+   ============================================================ */
 .app-layout {
-  display: flex;
-  min-height: 100vh;
+  display: flex;          /* enables flexbox layout */
+  flex-direction: row;    /* sidebar and main sit side by side (left to right) */
+  min-height: 100vh;      /* fills the full screen height */
 }
 
+
+/* ============================================================
+   SIDEBAR (left navigation panel)
+   
+   width: var(--sidebar-w) — fixed 220px wide, never shrinks
+   
+   display: flex + flex-direction: column — stacks the logo
+   and nav links vertically (top to bottom)
+   
+   position: sticky — the sidebar stays visible as you scroll
+   top: 0 — sticks to the very top of the screen
+   height: 100vh — sidebar is always full screen height
+   
+   flex-shrink: 0 — prevents the sidebar from getting smaller
+   when the screen is narrow. Without this, flex would try
+   to shrink it to fit.
+   ============================================================ */
 .sidebar {
-  width: var(--sidebar-w);
+  width: var(--sidebar-w);       /* always 220px wide */
   background: var(--surface);
   border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
+  display: flex;                 /* enables flexbox inside sidebar */
+  flex-direction: column;        /* logo on top, nav links below (top → bottom) */
   padding: 28px 16px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  flex-shrink: 0;
+  position: sticky;              /* stays fixed while page scrolls */
+  top: 0;                        /* sticks to the top edge of the screen */
+  height: 100vh;                 /* always full screen height */
+  flex-shrink: 0;                /* never shrinks, always stays 220px */
 }
 
+/* Logo text at the top of the sidebar */
 .sidebar .logo {
   font-size: 18px;
   font-weight: 700;
   color: var(--accent);
-  margin-bottom: 36px;
+  margin-bottom: 36px; /* space between logo and first nav link */
   padding-left: 8px;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.3px; /* slightly tighter letter spacing */
 }
 
-.sidebar nav { display: flex; flex-direction: column; gap: 4px; }
-
-.nav-link {
+/* Nav links container inside sidebar
+   display: flex + flex-direction: column = links stack vertically
+   gap: 4px = small space between each link */
+.sidebar nav {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column; /* stack nav links top to bottom */
+  gap: 4px;               /* 4px gap between each nav link */
+}
+
+
+/* ============================================================
+   SIDEBAR NAV LINKS
+   
+   display: flex — makes icon and text sit side by side
+   align-items: center — vertically centers icon and text
+   gap: 10px — space between the icon and the text label
+   ============================================================ */
+.nav-link {
+  display: flex;           /* icon and text side by side */
+  flex-direction: row;     /* left to right: icon → text */
+  align-items: center;     /* vertically center icon and text */
+  gap: 10px;               /* space between icon and text */
   padding: 10px 12px;
   border-radius: var(--radius-sm);
   color: var(--text-muted);
   font-size: 14px;
   font-weight: 500;
+  /* transition applies smooth animation to background and color changes */
   transition: background var(--transition), color var(--transition);
 }
 
-.nav-link:hover, .nav-link.active {
-  background: var(--accent-light);
-  color: var(--accent);
+/* When hovering OR when this is the current active page */
+.nav-link:hover,
+.nav-link.active {
+  background: var(--accent-light); /* light blue background */
+  color: var(--accent);            /* blue text */
 }
 
-.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+/* The emoji icon inside each nav link */
+.nav-icon {
+  font-size: 16px;
+  width: 20px;          /* fixed width so all icons align */
+  text-align: center;
+}
 
+
+/* ============================================================
+   MAIN CONTENT AREA (right side of the page)
+   
+   flex: 1 — this is the key property.
+   It means "take up ALL remaining space" after the sidebar.
+   The sidebar is 220px, so main-content fills the rest.
+   
+   flex: 1 is shorthand for flex-grow:1, flex-shrink:1, flex-basis:0
+   flex-grow: 1 = grow to fill available space
+   
+   overflow-y: auto — adds a scrollbar only when content
+   is taller than the screen
+   ============================================================ */
 .main-content {
-  flex: 1;
+  flex: 1;              /* fills all remaining width after the sidebar */
   padding: 36px 40px;
-  overflow-y: auto;
+  overflow-y: auto;     /* scroll vertically if content is too tall */
 }
 
-/* ── CARDS ── */
+
+/* ============================================================
+   CARD COMPONENT
+   
+   Used everywhere as a white box with shadow.
+   
+   transition — smoothly animates box-shadow and transform
+   when hovering. Without transition, the change is instant.
+   ============================================================ */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius); /* 14px rounded corners */
   padding: 24px;
   box-shadow: var(--shadow);
+  /* animate both shadow and position change smoothly */
   transition: box-shadow var(--transition), transform var(--transition);
 }
 
-.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+/* Card lifts up 2px when hovered — gives a "floating" feel
+   transform: translateY(-2px) moves the card 2px upward
+   translateY = move along the Y axis (vertical)
+   negative value = move UP */
+.card:hover {
+  box-shadow: var(--shadow-md);    /* bigger shadow when lifted */
+  transform: translateY(-2px);     /* move card 2px upward */
+}
 
-/* ── BUTTONS ── */
+
+/* ============================================================
+   BUTTON BASE STYLES
+   
+   display: inline-flex — like inline-block but with flexbox.
+   This lets us use align-items to center the icon and text
+   inside the button vertically.
+   
+   align-items: center — vertically centers content inside button
+   gap: 8px — space between icon and text inside button
+   ============================================================ */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex;    /* inline element with flex layout inside */
+  flex-direction: row;     /* icon and text go left to right */
+  align-items: center;     /* vertically center content */
+  gap: 8px;                /* space between icon and text */
   padding: 11px 22px;
   border-radius: var(--radius-sm);
-  font-family: inherit;
+  font-family: inherit;    /* use same font as the rest of the page */
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
+  cursor: pointer;         /* shows hand cursor on hover */
   border: none;
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
+/* Solid blue filled button */
 .btn-primary {
   background: var(--accent);
   color: #fff;
 }
 
+/* On hover: darker blue + slight upward lift + glow shadow
+   rgba(79,126,248,0.35) = blue color at 35% opacity */
 .btn-primary:hover {
   background: var(--accent-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(79,126,248,0.35);
+  transform: translateY(-1px);                        /* lift 1px up */
+  box-shadow: 0 4px 14px rgba(79,126,248,0.35);       /* blue glow */
 }
 
+/* Transparent button with a blue border */
 .btn-outline {
   background: transparent;
   color: var(--accent);
   border: 1.5px solid var(--accent);
 }
 
-.btn-outline:hover { background: var(--accent-light); }
+.btn-outline:hover {
+  background: var(--accent-light); /* light blue fill on hover */
+}
 
-/* ── BADGES ── */
+
+/* ============================================================
+   BADGE (small colored status labels)
+   
+   display: inline-block — sits inline with text but
+   respects padding/margin like a block element.
+   
+   border-radius: 20px — very rounded, pill shape
+   ============================================================ */
 .badge {
   display: inline-block;
   padding: 3px 10px;
-  border-radius: 20px;
+  border-radius: 20px;  /* pill/capsule shape */
   font-size: 12px;
   font-weight: 600;
 }
 
-.badge-success { background: #dcfce7; color: #16a34a; }
-.badge-warning { background: #fef9c3; color: #b45309; }
-.badge-danger  { background: #fee2e2; color: #dc2626; }
-.badge-blue    { background: var(--accent-light); color: var(--accent); }
-.badge-purple  { background: #f3e8ff; color: #7c3aed; }
-.badge-pink    { background: #fce7f3; color: #be185d; }
+/* Each badge color variant */
+.badge-success { background: #dcfce7; color: #16a34a; } /* green  — completed */
+.badge-warning { background: #fef9c3; color: #b45309; } /* yellow — due soon */
+.badge-danger  { background: #fee2e2; color: #dc2626; } /* red    — urgent/today */
+.badge-blue    { background: var(--accent-light); color: var(--accent); } /* blue — pending */
+.badge-purple  { background: #f3e8ff; color: #7c3aed; } /* purple — physics */
+.badge-pink    { background: #fce7f3; color: #be185d; } /* pink   — english */
 
-/* ── PROGRESS BAR ── */
-.progress-wrap { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; }
-.progress-bar  { height: 100%; border-radius: 99px; background: var(--accent); }
 
-/* ── PAGE HEADER ── */
-.page-header { margin-bottom: 28px; }
-.page-header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.4px; }
-.page-header p  { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+/* ============================================================
+   PROGRESS BAR
+   
+   Two elements work together:
+   .progress-wrap = the grey outer track (container)
+   .progress-bar  = the colored fill inside
+   
+   overflow: hidden on the wrap clips the bar's rounded
+   ends so they don't stick out past the track edges.
+   
+   border-radius: 99px = fully rounded ends (pill shape)
+   A large value like 99px always creates a full pill
+   regardless of the element's height.
+   ============================================================ */
+.progress-wrap {
+  background: var(--border); /* grey track */
+  border-radius: 99px;       /* fully rounded ends */
+  height: 8px;
+  overflow: hidden;          /* clips the inner bar to stay inside */
+}
 
-/* ── GRID HELPERS ── */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.progress-bar {
+  height: 100%;              /* fills the full height of the track */
+  border-radius: 99px;       /* rounded ends on the fill too */
+  background: var(--accent); /* default blue fill (overridden per subject) */
+}
 
-/* ── SECTION TITLE ── */
+
+/* ============================================================
+   PAGE HEADER (title + subtitle at top of each page)
+   ============================================================ */
+.page-header {
+  margin-bottom: 28px; /* space below the header before content starts */
+}
+
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px; /* slightly tighter for large headings */
+}
+
+.page-header p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+
+/* ============================================================
+   CSS GRID HELPERS
+   
+   display: grid — enables CSS Grid layout
+   grid-template-columns: repeat(2, 1fr) — creates 2 columns
+     repeat(2, ...) = repeat 2 times
+     1fr = 1 fraction of available space
+     So both columns are equal width
+   gap: 20px — space between grid cells (both rows and columns)
+   ============================================================ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 20px;
+}
+
+
+/* ============================================================
+   SECTION TITLE (small uppercase label above a section)
+   
+   text-transform: uppercase — converts text to ALL CAPS via CSS
+   letter-spacing: 0.6px — adds space between each letter
+   These two together create the classic "label" look
+   ============================================================ */
 .section-title {
   font-size: 13px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
+  text-transform: uppercase;  /* makes text ALL CAPS */
+  letter-spacing: 0.6px;      /* spreads letters apart slightly */
   color: var(--text-light);
   margin-bottom: 14px;
 }
 
-/* ── NAVBAR (mobile / home) ── */
+
+/* ============================================================
+   TOP NAVBAR (used on the landing/home page only)
+   
+   display: flex + justify-content: space-between —
+   puts logo on the far left, nav links in the middle,
+   and the button on the far right.
+   
+   justify-content controls spacing along the MAIN axis (horizontal)
+   align-items: center aligns everything vertically in the middle
+   
+   position: sticky + top: 0 — navbar sticks to top when scrolling
+   z-index: 100 — stays on top of all other content (higher = on top)
+   ============================================================ */
 .navbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: row;             /* logo, nav, button go left to right */
+  align-items: center;             /* vertically center all items */
+  justify-content: space-between;  /* spread items: left | center | right */
   padding: 18px 48px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  position: sticky;
+  position: sticky;  /* sticks to top when you scroll down */
   top: 0;
-  z-index: 100;
+  z-index: 100;      /* renders on top of all other elements */
 }
 
-.navbar .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.4px; }
+.navbar .logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.4px;
+}
 
-.navbar nav { display: flex; gap: 28px; }
+/* Nav links inside the navbar sit side by side */
+.navbar nav {
+  display: flex;
+  flex-direction: row; /* links go left to right */
+  gap: 28px;           /* space between each link */
+}
 
 .navbar nav a {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-muted);
-  transition: color var(--transition);
+  transition: color var(--transition); /* smooth color change on hover */
 }
 
-.navbar nav a:hover { color: var(--text); }
+.navbar nav a:hover {
+  color: var(--text); /* darken text on hover */
+}
 
-/* ── RESPONSIVE ── */
+
+/* ============================================================
+   RESPONSIVE STYLES — MOBILE (max-width: 768px)
+   
+   @media (max-width: 768px) means:
+   "Apply these styles ONLY when screen width is 768px or less"
+   
+   On mobile:
+   - The sidebar turns into a horizontal top bar
+   - All grids collapse to a single column
+   - Text labels in nav links are hidden (icons only)
+   ============================================================ */
 @media (max-width: 768px) {
+
+  /* ---- Sidebar becomes a horizontal top bar ---- */
   .sidebar {
-    width: 100%;
-    height: auto;
+    width: 100%;       /* full width instead of 220px */
+    height: auto;      /* height adjusts to content instead of 100vh */
+
+    /* flex-direction: row = children go LEFT TO RIGHT
+       This changes the sidebar from vertical (column) to horizontal (row)
+       So logo and nav links sit side by side instead of stacked */
     flex-direction: row;
-    align-items: center;
+
+    align-items: center;  /* vertically center logo and nav links */
     padding: 14px 16px;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+    border-right: none;   /* remove the right border (no longer needed) */
+    border-bottom: 1px solid var(--border); /* add bottom border instead */
     position: sticky;
     top: 0;
     z-index: 100;
-    overflow-x: auto;
+    overflow-x: auto;  /* allow horizontal scrolling if links overflow */
   }
 
-  .sidebar .logo { margin-bottom: 0; margin-right: 20px; white-space: nowrap; }
-  .sidebar nav { flex-direction: row; gap: 4px; }
-  .nav-link span:not(.nav-icon) { display: none; }
+  .sidebar .logo {
+    margin-bottom: 0;      /* remove bottom margin (was for vertical layout) */
+    margin-right: 20px;    /* add right margin to separate from nav links */
+    white-space: nowrap;   /* prevent logo text from wrapping to next line */
+  }
 
-  .app-layout { flex-direction: column; }
-  .main-content { padding: 24px 18px; }
+  /* Nav links also go horizontal on mobile */
+  .sidebar nav {
+    flex-direction: row; /* change from column (vertical) to row (horizontal) */
+    gap: 4px;
+  }
 
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  /* Hide the text label inside each nav link on mobile
+     span:not(.nav-icon) = select spans that are NOT the icon span
+     Only the emoji icon remains visible */
+  .nav-link span:not(.nav-icon) {
+    display: none; /* hide text, keep icon only */
+  }
 
-  .navbar { padding: 16px 20px; }
-  .navbar nav { gap: 16px; }
+  /* Stack sidebar on top, main content below */
+  .app-layout {
+    flex-direction: column; /* change from row (side by side) to column (stacked) */
+  }
+
+  .main-content {
+    padding: 24px 18px; /* less padding on small screens */
+  }
+
+  /* All 2-column and 3-column grids become 1 column on mobile
+     1fr = one column that takes full width */
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr; /* single column layout */
+  }
+
+  .navbar {
+    padding: 16px 20px; /* less horizontal padding on mobile */
+  }
+
+  .navbar nav {
+    gap: 16px; /* less gap between nav links on mobile */
+  }
 }
