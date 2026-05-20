@@ -1,3 +1,4 @@
+<!-- This file and code belongs to Mittal -->
 <!DOCTYPE html>
 <!--
   FocusBoard - Dashboard Page
@@ -11,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FocusBoard — Dashboard</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="app.js" defer></script>
   <style>
 
     /* 3 stat cards in a row at the top */
@@ -131,7 +133,7 @@
 
   </style>
 </head>
-<body>
+<body data-page="dashboard">
 
 <div class="app-layout">
 
@@ -159,25 +161,25 @@
 
     <!-- Page title and today's date -->
     <div class="page-header">
-      <h1>Good morning, Alex 👋</h1>
-      <p>Monday, 14 July 2025 — You have 3 tasks due today.</p>
+      <h1 id="dashboard-greeting"><span id="dashboard-greeting-text">Good morning, Alex</span> 👋</h1>
+      <p><span id="dashboard-date">Monday, 14 July 2025</span> — You have <span id="dashboard-due-count">3</span> tasks due today.</p>
     </div>
 
     <!-- 3 stat cards: tasks, focus hours, streak -->
     <div class="stat-grid">
       <div class="card stat-card">
         <div class="stat-label">Tasks Today</div>
-        <div class="stat-value">6</div>
-        <div class="stat-sub">3 remaining</div>
+        <div class="stat-value" id="stat-tasks-today">6</div>
+        <div class="stat-sub" id="stat-tasks-remaining">3 remaining</div>
       </div>
       <div class="card stat-card">
         <div class="stat-label">Focus Hours</div>
-        <div class="stat-value">2.5h</div>
+        <div class="stat-value" id="stat-focus-hours">2.5h</div>
         <div class="stat-sub">Goal: 4h</div>
       </div>
       <div class="card stat-card">
         <div class="stat-label">Streak</div>
-        <div class="stat-value">7 🔥</div>
+        <div class="stat-value" id="stat-streak">7 days</div>
         <div class="stat-sub">Days in a row</div>
       </div>
     </div>
@@ -192,55 +194,8 @@
         <div class="card">
           <div class="section-title">Today's Tasks</div>
 
-          <!-- Completed task -->
-          <div class="task-item">
-            <div class="task-check done"></div>
-            <div class="task-info">
-              <div class="task-name done">Read Chapter 5 — Physics</div>
-              <div class="task-meta">Physics · Due 9:00 AM</div>
-            </div>
-            <span class="badge badge-success">Done</span>
-          </div>
-
-          <!-- Completed task -->
-          <div class="task-item">
-            <div class="task-check done"></div>
-            <div class="task-info">
-              <div class="task-name done">Review lecture notes</div>
-              <div class="task-meta">Biology · Due 11:00 AM</div>
-            </div>
-            <span class="badge badge-success">Done</span>
-          </div>
-
-          <!-- Pending task due today -->
-          <div class="task-item">
-            <div class="task-check"></div>
-            <div class="task-info">
-              <div class="task-name">Write essay introduction</div>
-              <div class="task-meta">English · Due 3:00 PM</div>
-            </div>
-            <span class="badge badge-warning">Due today</span>
-          </div>
-
-          <!-- Pending task due today -->
-          <div class="task-item">
-            <div class="task-check"></div>
-            <div class="task-info">
-              <div class="task-name">Math problem set #4</div>
-              <div class="task-meta">Mathematics · Due 5:00 PM</div>
-            </div>
-            <span class="badge badge-warning">Due today</span>
-          </div>
-
-          <!-- Pending task due tomorrow -->
-          <div class="task-item">
-            <div class="task-check"></div>
-            <div class="task-info">
-              <div class="task-name">Prepare presentation slides</div>
-              <div class="task-meta">History · Due tomorrow</div>
-            </div>
-            <span class="badge badge-blue">Pending</span>
-          </div>
+          <div id="dashboard-task-list"></div>
+          <div id="dashboard-task-empty" class="empty-state" style="display:none;">No tasks to show.</div>
         </div>
 
         <!-- Weekly progress card with one bar per subject -->

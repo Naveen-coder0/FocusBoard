@@ -1,3 +1,4 @@
+<!-- This file and code belongs to Naveen Maan -->
 <!DOCTYPE html>
 <!--
   FocusBoard - Deadlines Page
@@ -12,6 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FocusBoard — Deadlines</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="app.js" defer></script>
   <style>
 
     /* Two columns: calendar on left, deadline list on right */
@@ -196,7 +198,7 @@
 
   </style>
 </head>
-<body>
+<body data-page="deadlines">
 
 <div class="app-layout">
 
@@ -224,7 +226,7 @@
     <!-- Page title -->
     <div class="page-header">
       <h1>Deadlines</h1>
-      <p>5 upcoming deadlines this month</p>
+      <p id="deadlines-count">5 upcoming deadlines this month</p>
     </div>
 
     <div class="deadlines-layout">
@@ -234,10 +236,10 @@
 
         <!-- Month name and navigation arrows -->
         <div class="cal-header">
-          <h2>July 2025</h2>
+          <h2 id="cal-month">July 2025</h2>
           <div class="cal-nav">
-            <button class="cal-nav-btn">‹</button>
-            <button class="cal-nav-btn">›</button>
+            <button class="cal-nav-btn" data-cal-nav="prev">‹</button>
+            <button class="cal-nav-btn" data-cal-nav="next">›</button>
           </div>
         </div>
 
@@ -253,84 +255,7 @@
         </div>
 
         <!-- All day cells for July 2025 -->
-        <div class="cal-grid">
-
-          <!-- Week 1: Jun 29-30 (grey) + Jul 1-5 -->
-          <div class="cal-day other-month"><span class="cal-day-num">29</span></div>
-          <div class="cal-day other-month"><span class="cal-day-num">30</span></div>
-          <div class="cal-day"><span class="cal-day-num">1</span></div>
-          <div class="cal-day"><span class="cal-day-num">2</span></div>
-          <div class="cal-day"><span class="cal-day-num">3</span></div>
-          <div class="cal-day"><span class="cal-day-num">4</span></div>
-          <div class="cal-day"><span class="cal-day-num">5</span></div>
-
-          <!-- Week 2: Jul 6-12 -->
-          <div class="cal-day"><span class="cal-day-num">6</span></div>
-          <div class="cal-day"><span class="cal-day-num">7</span></div>
-          <div class="cal-day"><span class="cal-day-num">8</span></div>
-          <div class="cal-day"><span class="cal-day-num">9</span></div>
-          <div class="cal-day"><span class="cal-day-num">10</span></div>
-          <div class="cal-day"><span class="cal-day-num">11</span></div>
-          <div class="cal-day"><span class="cal-day-num">12</span></div>
-
-          <!-- Week 3: Jul 13-19 -->
-          <div class="cal-day"><span class="cal-day-num">13</span></div>
-
-          <!-- Jul 14 = today, has English deadline (pink dot) -->
-          <div class="cal-day today has-deadline">
-            <span class="cal-day-num">14</span>
-            <div class="cal-dots"><div class="cal-dot dot-english"></div></div>
-          </div>
-
-          <div class="cal-day"><span class="cal-day-num">15</span></div>
-
-          <!-- Jul 16 = History deadline (amber dot) -->
-          <div class="cal-day has-deadline">
-            <span class="cal-day-num">16</span>
-            <div class="cal-dots"><div class="cal-dot dot-history"></div></div>
-          </div>
-
-          <div class="cal-day"><span class="cal-day-num">17</span></div>
-
-          <!-- Jul 18 = Physics deadline (purple dot) -->
-          <div class="cal-day has-deadline">
-            <span class="cal-day-num">18</span>
-            <div class="cal-dots"><div class="cal-dot dot-physics"></div></div>
-          </div>
-
-          <div class="cal-day"><span class="cal-day-num">19</span></div>
-
-          <!-- Week 4: Jul 20-26 -->
-          <div class="cal-day"><span class="cal-day-num">20</span></div>
-          <div class="cal-day"><span class="cal-day-num">21</span></div>
-
-          <!-- Jul 22 = Math deadline (blue dot) -->
-          <div class="cal-day has-deadline">
-            <span class="cal-day-num">22</span>
-            <div class="cal-dots"><div class="cal-dot dot-math"></div></div>
-          </div>
-
-          <div class="cal-day"><span class="cal-day-num">23</span></div>
-          <div class="cal-day"><span class="cal-day-num">24</span></div>
-
-          <!-- Jul 25 = Biology deadline (green dot) -->
-          <div class="cal-day has-deadline">
-            <span class="cal-day-num">25</span>
-            <div class="cal-dots"><div class="cal-dot dot-biology"></div></div>
-          </div>
-
-          <div class="cal-day"><span class="cal-day-num">26</span></div>
-
-          <!-- Week 5: Jul 27-31 + Aug 1-2 (grey) -->
-          <div class="cal-day"><span class="cal-day-num">27</span></div>
-          <div class="cal-day"><span class="cal-day-num">28</span></div>
-          <div class="cal-day"><span class="cal-day-num">29</span></div>
-          <div class="cal-day"><span class="cal-day-num">30</span></div>
-          <div class="cal-day"><span class="cal-day-num">31</span></div>
-          <div class="cal-day other-month"><span class="cal-day-num">1</span></div>
-          <div class="cal-day other-month"><span class="cal-day-num">2</span></div>
-
-        </div>
+        <div class="cal-grid" id="cal-grid"></div>
 
         <!-- Color legend: which color = which subject -->
         <div class="legend">
@@ -346,67 +271,8 @@
       <!-- Right panel: upcoming deadlines list -->
       <div class="card deadline-list-card">
         <div class="section-title">Upcoming</div>
-
-        <!-- English essay - due today -->
-        <div class="dl-item">
-          <div class="dl-top">
-            <div class="dl-title">English Essay Draft</div>
-            <span class="badge badge-danger">Today</span>
-          </div>
-          <div class="dl-date">📅 Jul 14, 2025</div>
-          <div class="dl-bar-wrap">
-            <div class="progress-wrap"><div class="progress-bar" style="width:40%; background:#be185d"></div></div>
-          </div>
-        </div>
-
-        <!-- History presentation - 2 days away -->
-        <div class="dl-item">
-          <div class="dl-top">
-            <div class="dl-title">History Presentation</div>
-            <span class="badge badge-warning">2 days</span>
-          </div>
-          <div class="dl-date">📅 Jul 16, 2025</div>
-          <div class="dl-bar-wrap">
-            <div class="progress-wrap"><div class="progress-bar" style="width:20%; background:#f59e0b"></div></div>
-          </div>
-        </div>
-
-        <!-- Physics lab report - 4 days away -->
-        <div class="dl-item">
-          <div class="dl-top">
-            <div class="dl-title">Physics Lab Report</div>
-            <span class="badge badge-blue">4 days</span>
-          </div>
-          <div class="dl-date">📅 Jul 18, 2025</div>
-          <div class="dl-bar-wrap">
-            <div class="progress-wrap"><div class="progress-bar" style="width:60%; background:#7c3aed"></div></div>
-          </div>
-        </div>
-
-        <!-- Math exam - 8 days away -->
-        <div class="dl-item">
-          <div class="dl-top">
-            <div class="dl-title">Math Final Exam</div>
-            <span class="badge badge-blue">8 days</span>
-          </div>
-          <div class="dl-date">📅 Jul 22, 2025</div>
-          <div class="dl-bar-wrap">
-            <div class="progress-wrap"><div class="progress-bar" style="width:75%"></div></div>
-          </div>
-        </div>
-
-        <!-- Biology project - 11 days away -->
-        <div class="dl-item">
-          <div class="dl-top">
-            <div class="dl-title">Biology Project</div>
-            <span class="badge badge-blue">11 days</span>
-          </div>
-          <div class="dl-date">📅 Jul 25, 2025</div>
-          <div class="dl-bar-wrap">
-            <div class="progress-wrap"><div class="progress-bar" style="width:90%; background:#22c55e"></div></div>
-          </div>
-        </div>
-
+        <div id="upcoming-list"></div>
+        <div id="deadlines-empty" class="empty-state" style="display:none;">No upcoming deadlines.</div>
       </div>
 
     </div>

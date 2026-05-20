@@ -1,3 +1,4 @@
+<!-- This file and code belongs to Harshit -->
 <!DOCTYPE html>
 <!-- ============================================================
      FocusBoard — Tasks Page (tasks.html)
@@ -11,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FocusBoard — Tasks</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="app.js" defer></script>
   <style>
     /* -- Harshit: Two-column page layout (list | form) -- */
     .tasks-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
@@ -156,7 +158,7 @@
 
   </style>
 </head>
-<body>
+<body data-page="tasks">
 
 <div class="app-layout">
 
@@ -184,18 +186,18 @@
     <!-- Page title with task count summary -->
     <div class="page-header">
       <h1>Tasks</h1>
-      <p>8 tasks total · 3 completed · 5 remaining</p>
+      <p><span id="task-total">8</span> tasks total · <span id="task-completed">3</span> completed · <span id="task-remaining">5</span> remaining</p>
     </div>
 
     <!-- Filter buttons to show different task groups -->
     <div class="filter-bar">
-      <button class="filter-btn active">All</button>
-      <button class="filter-btn">Pending</button>
-      <button class="filter-btn">Completed</button>
-      <button class="filter-btn">Due Today</button>
-      <button class="filter-btn">Mathematics</button>
-      <button class="filter-btn">Physics</button>
-      <button class="filter-btn">English</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="pending">Pending</button>
+      <button class="filter-btn" data-filter="completed">Completed</button>
+      <button class="filter-btn" data-filter="due-today">Due Today</button>
+      <button class="filter-btn" data-filter="subject:Mathematics">Mathematics</button>
+      <button class="filter-btn" data-filter="subject:Physics">Physics</button>
+      <button class="filter-btn" data-filter="subject:English">English</button>
     </div>
 
     <div class="tasks-layout">
@@ -203,148 +205,33 @@
       <!-- Left: task list -->
       <div>
 
-        <!-- Section label -->
-        <div class="section-title">Pending</div>
-
-        <!-- Task: English essay due today -->
-        <div class="card task-card">
-          <div class="task-card-check"></div>
-          <div class="task-card-body">
-            <div class="task-card-title">Write essay introduction</div>
-            <div class="task-card-meta">
-              <span class="badge badge-pink">English</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Due Jul 14, 3:00 PM</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-danger">Due today</span>
-            </div>
-          </div>
+        <div class="task-section" data-section="pending">
+          <div class="section-title">Pending</div>
+          <div class="task-section-list" id="pending-list"></div>
         </div>
 
-        <!-- Task: Math problem set due today -->
-        <div class="card task-card">
-          <div class="task-card-check"></div>
-          <div class="task-card-body">
-            <div class="task-card-title">Math problem set #4</div>
-            <div class="task-card-meta">
-              <span class="badge badge-blue">Mathematics</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Due Jul 14, 5:00 PM</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-warning">Due today</span>
-            </div>
-          </div>
+        <div class="task-section" data-section="completed">
+          <div class="section-title" style="margin-top:28px;">Completed</div>
+          <div class="task-section-list" id="completed-list"></div>
         </div>
 
-        <!-- Task: History presentation -->
-        <div class="card task-card">
-          <div class="task-card-check"></div>
-          <div class="task-card-body">
-            <div class="task-card-title">Prepare presentation slides</div>
-            <div class="task-card-meta">
-              <span class="badge badge-warning">History</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Due Jul 16</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-blue">Pending</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Task: Physics lab report -->
-        <div class="card task-card">
-          <div class="task-card-check"></div>
-          <div class="task-card-body">
-            <div class="task-card-title">Physics Lab Report — Optics</div>
-            <div class="task-card-meta">
-              <span class="badge badge-purple">Physics</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Due Jul 18</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-blue">Pending</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Task: Biology project -->
-        <div class="card task-card">
-          <div class="task-card-check"></div>
-          <div class="task-card-body">
-            <div class="task-card-title">Biology Project — Cell Division</div>
-            <div class="task-card-meta">
-              <span class="badge badge-success">Biology</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Due Jul 25</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-blue">Pending</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section label for completed tasks -->
-        <div class="section-title" style="margin-top:28px;">Completed</div>
-
-        <!-- Completed: Physics reading -->
-        <div class="card task-card">
-          <div class="task-card-check done"></div>
-          <div class="task-card-body">
-            <div class="task-card-title done">Read Chapter 5 — Physics</div>
-            <div class="task-card-meta">
-              <span class="badge badge-purple">Physics</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Jul 14, 9:00 AM</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-success">Completed</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Completed: Biology notes -->
-        <div class="card task-card">
-          <div class="task-card-check done"></div>
-          <div class="task-card-body">
-            <div class="task-card-title done">Review lecture notes</div>
-            <div class="task-card-meta">
-              <span class="badge badge-success">Biology</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Jul 14, 11:00 AM</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-success">Completed</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Completed: Algebra practice -->
-        <div class="card task-card">
-          <div class="task-card-check done"></div>
-          <div class="task-card-body">
-            <div class="task-card-title done">Solve practice problems — Algebra</div>
-            <div class="task-card-meta">
-              <span class="badge badge-blue">Mathematics</span>
-              <span class="meta-dot">·</span>
-              <span>📅 Jul 13</span>
-              <span class="meta-dot">·</span>
-              <span class="badge badge-success">Completed</span>
-            </div>
-          </div>
-        </div>
-
+        <div id="task-empty" class="empty-state" style="display:none;">No tasks match this filter.</div>
       </div>
 
-      <!-- Right: Add New Task form (UI only, no JavaScript) -->
-      <div class="card form-card">
+      <!-- Right: Add New Task form -->
+      <form class="card form-card" id="task-form">
         <div class="form-title">+ Add New Task</div>
 
         <!-- Task name field -->
         <div class="form-group">
-          <label class="form-label">Task Title</label>
-          <input class="form-input" type="text" placeholder="e.g. Read Chapter 6" />
+          <label class="form-label" for="task-title">Task Title</label>
+          <input class="form-input" id="task-title" name="title" type="text" placeholder="e.g. Read Chapter 6" required />
         </div>
 
         <!-- Subject picker -->
         <div class="form-group">
-          <label class="form-label">Subject</label>
-          <select class="form-select">
+          <label class="form-label" for="task-subject">Subject</label>
+          <select class="form-select" id="task-subject" name="subject">
             <option>Mathematics</option>
             <option>Physics</option>
             <option>English</option>
@@ -355,14 +242,14 @@
 
         <!-- Deadline date picker -->
         <div class="form-group">
-          <label class="form-label">Deadline</label>
-          <input class="form-input" type="date" />
+          <label class="form-label" for="task-deadline">Deadline</label>
+          <input class="form-input" id="task-deadline" name="deadline" type="date" />
         </div>
 
         <!-- Priority level picker -->
         <div class="form-group">
-          <label class="form-label">Priority</label>
-          <select class="form-select">
+          <label class="form-label" for="task-priority">Priority</label>
+          <select class="form-select" id="task-priority" name="priority">
             <option>High</option>
             <option>Medium</option>
             <option>Low</option>
@@ -371,13 +258,13 @@
 
         <!-- Optional notes box -->
         <div class="form-group" style="margin-bottom:20px;">
-          <label class="form-label">Notes</label>
-          <textarea class="form-input" rows="3" placeholder="Optional notes..." style="resize:vertical"></textarea>
+          <label class="form-label" for="task-notes">Notes</label>
+          <textarea class="form-input" id="task-notes" name="notes" rows="3" placeholder="Optional notes..." style="resize:vertical"></textarea>
         </div>
 
-        <!-- Submit button (visual only) -->
-        <button class="btn btn-primary" style="width:100%; justify-content:center;">Add Task</button>
-      </div>
+        <!-- Submit button -->
+        <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center;">Add Task</button>
+      </form>
 
     </div>
   </main>

@@ -1,3 +1,4 @@
+/* This file and code belongs to Krishnam Makker */
 /* ============================================================
    FocusBoard - Main Stylesheet
    
@@ -408,6 +409,20 @@ a {
   letter-spacing: 0.6px;      /* spreads letters apart slightly */
   color: var(--text-light);
   margin-bottom: 14px;
+}
+
+/* ============================================================
+   EMPTY STATES + INTERACTIVE CHECKS
+   ============================================================ */
+.empty-state {
+  color: var(--text-light);
+  font-size: 13px;
+  padding: 10px 0;
+}
+
+.task-check,
+.task-card-check {
+  cursor: pointer;
 }
 
 

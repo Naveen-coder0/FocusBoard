@@ -1,3 +1,4 @@
+<!-- This file and code belongs to Mittal -->
 <!DOCTYPE html>
 <!--
   FocusBoard - Focus Mode Page
@@ -11,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FocusBoard — Focus Mode</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="app.js" defer></script>
   <style>
 
     /* Dark background for the whole page */
@@ -257,7 +259,7 @@
 
   </style>
 </head>
-<body>
+<body data-page="focus">
 
   <!-- Top navigation bar -->
   <header class="focus-topbar">
@@ -277,9 +279,9 @@
 
     <!-- Session type tabs -->
     <div class="session-tabs">
-      <div class="session-tab active">Pomodoro</div>
-      <div class="session-tab">Short Break</div>
-      <div class="session-tab">Long Break</div>
+      <div class="session-tab active" data-session="pomodoro">Pomodoro</div>
+      <div class="session-tab" data-session="short">Short Break</div>
+      <div class="session-tab" data-session="long">Long Break</div>
     </div>
 
     <!-- Circular ring timer -->
@@ -288,41 +290,41 @@
         <!-- Grey background track -->
         <circle class="timer-ring-bg" cx="140" cy="140" r="120" />
         <!-- Blue progress arc (75% filled = 18:45 remaining out of 25:00) -->
-        <circle class="timer-ring-progress" cx="140" cy="140" r="120" />
+        <circle class="timer-ring-progress" id="timer-ring-progress" cx="140" cy="140" r="120" />
       </svg>
       <!-- Time display in the center -->
       <div class="timer-center">
-        <div class="timer-display">18:45</div>
-        <div class="timer-label">remaining</div>
+        <div class="timer-display" id="timer-display">18:45</div>
+        <div class="timer-label" id="timer-label">remaining</div>
       </div>
     </div>
 
     <!-- Control buttons: restart, play, skip -->
     <div class="timer-controls">
-      <button class="ctrl-btn" title="Restart">↺</button>
-      <button class="ctrl-btn ctrl-btn-primary" title="Play/Pause">▶</button>
-      <button class="ctrl-btn" title="Skip">⏭</button>
+      <button class="ctrl-btn" id="focus-restart" title="Restart">↺</button>
+      <button class="ctrl-btn ctrl-btn-primary" id="focus-play" title="Play/Pause">▶</button>
+      <button class="ctrl-btn" id="focus-skip" title="Skip">⏭</button>
     </div>
 
     <!-- Shows which task you are working on right now -->
     <div class="current-task-card">
       <div class="current-task-label">Currently working on</div>
-      <div class="current-task-name">Write essay introduction</div>
-      <div class="current-task-sub">English · Due today at 3:00 PM</div>
+      <div class="current-task-name" id="current-task-name">Write essay introduction</div>
+      <div class="current-task-sub" id="current-task-sub">English · Due today at 3:00 PM</div>
     </div>
 
     <!-- Session stats: how many sessions, total focus time, breaks taken -->
     <div class="session-stats">
       <div class="stat-item">
-        <div class="val">3</div>
+        <div class="val" id="stat-sessions">3</div>
         <div class="lbl">Sessions</div>
       </div>
       <div class="stat-item">
-        <div class="val">1h 15m</div>
+        <div class="val" id="stat-focus-time">1h 15m</div>
         <div class="lbl">Focus Time</div>
       </div>
       <div class="stat-item">
-        <div class="val">2</div>
+        <div class="val" id="stat-breaks">2</div>
         <div class="lbl">Breaks</div>
       </div>
     </div>
